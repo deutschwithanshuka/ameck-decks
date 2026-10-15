@@ -191,6 +191,13 @@ table.t.vs td{padding-top:.95cqw;padding-bottom:.95cqw}
 .s-span2{grid-column:span 2} .s-span3{grid-column:span 3}
 /* faq */
 .faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.3cqw 3cqw}
+/* phone-only readable lists that replace wide charts */
+.mlist{margin:0;display:flex;flex-direction:column}
+.mlist .mt{font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.mlist .mr{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+.mlist dt{font-size:var(--s);color:var(--ink)}
+.mlist dd{margin:0;font-weight:600;font-size:var(--s);text-align:right;color:var(--ink)}
+.mlist dd small{display:block;font-weight:400;color:var(--mute)}
 .faq div{border-top:1px solid var(--line);padding-top:.8cqw;display:flex;flex-direction:column;gap:.3cqw;min-width:0}
 .faq b{font-family:var(--f-display);font-weight:600;font-size:var(--b)}
 .faq p{font-size:var(--s);color:var(--mute)}
@@ -270,6 +277,14 @@ def ic(name, cls="ic"):
 
 def icb(name):
     return f'<span class="icb">{ic(name)}</span>'
+
+def mlist(title, rows):
+    """Phone-only list version of a chart: rows of (label, value[, note])."""
+    out = f'<dl class="mlist m-only"><div class="mt">{title}</div>'
+    for r in rows:
+        note = f"<small>{r[2]}</small>" if len(r) > 2 else ""
+        out += f'<div class="mr"><dt>{r[0]}</dt><dd>{r[1]}{note}</dd></div>'
+    return out + "</dl>"
 
 SLIDES = []
 def slide(theme, section, body):
@@ -493,7 +508,7 @@ mis = [
  ("layers","Product strategy","We help you choose what to launch, how to position it and at what order size.","Education store, Pune","First Indian stockist of Scandinavian learning tools"),
 ]
 slide("paper", "Market intelligence", f"""
-<div class="row" style="justify-content:space-between;align-items:flex-end;gap:2cqw;flex-wrap:nowrap">
+<div class="row m-stack" style="justify-content:space-between;align-items:flex-end;gap:2cqw;flex-wrap:nowrap">
   <div class="hd"><span class="eyebrow">Market intelligence</span><h2>We also help you decide what to sell</h2></div>
   <div style="text-align:right;flex:none"><b class="num" style="font-size:var(--stat)">12 to 24</b><p class="small mute">months ahead of the Indian mainstream</p></div>
 </div>
@@ -569,7 +584,7 @@ slide("", "Import from China", f'''
       <li>Sample approval before bulk, pre-shipment inspection on every order</li>
     </ul>
   </div>
-  <div class="card" style="padding:1.6cqw 2cqw">{mode_chart}<p class="small mute">Insurance, tracking and customs handling are included with both modes. Samples travel by express courier.</p></div>
+  <div class="card" style="padding:1.6cqw 2cqw"><div class="m-hide">{mode_chart}</div>{mlist('Shipping mode, door to door', [('Air','7 to 12 working days'),('Sea','25 to 45 working days')])}<p class="small mute">Insurance, tracking and customs handling are included with both modes. Samples travel by express courier.</p></div>
 </div>''')
 
 # ---------------- 7 SHIPPING ----------------
@@ -791,7 +806,7 @@ slide("paper", "What you pay", f'''
     <div class="grid g2" style="gap:1cqw">
       {"".join(f'<div class="row" style="flex-wrap:nowrap;gap:.7em;align-items:center;padding:.9cqw 1.1cqw;border:1px dashed var(--rust);border-radius:8px"><span class="x">{ic("x")}</span><span class="strike">{t}</span></div>' for t in ["Sourcing commission","Subscription fees","Forex markup","Agent cuts or hidden margins"])}
     </div>
-    <div class="card" style="background:var(--sea);color:var(--on-sea);border-color:var(--sea)"><b class="num" style="font-size:var(--stat)">30 to 50%</b><p>Typical saving on product cost against Indian wholesale, because we buy factory-direct and combine orders across customers.</p></div>
+    <div class="card" style="background:var(--sea);color:var(--on-sea);border-color:var(--sea)"><b class="num" style="font-size:var(--stat)">30 to 45%</b><p>Typical saving on product cost against Indian wholesale, because we buy factory-direct and combine orders across customers.</p></div>
     <p class="small mute">China imports follow this model. Brand building, corporate orders and export work are quoted individually in a written proposal.</p>
   </div>
 </div>''')
@@ -832,8 +847,8 @@ trans_chart = f'''<svg class="chart wide" viewBox="0 0 540 310" role="img" aria-
 slide("", "Timelines", f'''
 <div class="hd"><span class="eyebrow">Timelines at a glance</span><h2>How fast things move</h2></div>
 <div class="grid g2 fill" style="gap:2cqw">
-  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center">{resp_chart}</div>
-  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center">{trans_chart}</div>
+  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center"><div class="m-hide">{resp_chart}</div>{mlist("How fast we respond", [(l, "within 4 to 6 h" if h==6 else f"within {h} h") for l,h in resp])}</div>
+  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center"><div class="m-hide">{trans_chart}</div>{mlist("Transit and clearance", [(l, f"{a} to {b} working days") for l,a,b,c in trans])}</div>
 </div>
 <p class="small mute">Freight times are door to door. Exact timelines depend on your product, supplier and destination, and your quote states the agreed timeline before you pay.</p>''')
 
@@ -910,14 +925,14 @@ slide("paper", "Ameck vs doing it yourself", f'''
 <div class="hd"><span class="eyebrow">Ameck vs doing it yourself</span><h2>Import on your own, or hand it to us</h2></div>
 <div class="grid fill split m-swipe" style="grid-template-columns:1.15fr .85fr;gap:2cqw">
   <div class="path alone">
-    <div class="row" style="justify-content:space-between;align-items:flex-end;flex-wrap:nowrap;gap:1cqw">
+    <div class="row m-stack" style="justify-content:space-between;align-items:flex-end;flex-wrap:nowrap;gap:1cqw">
       <span class="chip rust">On your own: 8 jobs, all yours</span>
       <div style="text-align:right"><b class="bigt" style="color:var(--rust);font-size:clamp(22px,3cqw,38px)">60 to 120 h</b><p class="small mute">of your time per shipment, over 3 to 5 months</p></div>
     </div>
     <ol>{"".join(f'<li><span class="n">{n+1}</span><span>{t}</span></li>' for n,t in enumerate(ALONE))}</ol>
   </div>
   <div class="path us">
-    <div class="row" style="justify-content:space-between;align-items:flex-end;flex-wrap:nowrap;gap:1cqw">
+    <div class="row m-stack" style="justify-content:space-between;align-items:flex-end;flex-wrap:nowrap;gap:1cqw">
       <span class="chip gold">With Ameck: 3 steps</span>
       <div style="text-align:right"><b class="bigt" style="color:var(--marigold);font-size:clamp(22px,3cqw,38px)">A few hours</b><p class="small" style="color:var(--on-sea-mute)">of your time, in total</p></div>
     </div>
@@ -930,7 +945,7 @@ slide("paper", "Ameck vs doing it yourself", f'''
 diy = [
  ("Finding a supplier","Online directories with no way to check them","A verified network, with due diligence on every supplier"),
  ("What to import","What is already sold locally, and already crowded","Trends spotted 12 to 24 months before the Indian mainstream"),
- ("Price","Whatever the supplier quotes","Factory-direct, typically 30 to 50% below wholesale"),
+ ("Price","Whatever the supplier quotes","Factory-direct, typically 30 to 45% below wholesale"),
  ("Quality","Approve a sample and hope the bulk matches","Mid-production and pre-shipment inspection on every order"),
  ("Customs and paperwork","IEC, HSN, Bill of Entry, IGST, BIS, FSSAI. One error can cost weeks.","100% handled by us, under our own IEC"),
  ("Your time","60 to 120 hours per shipment, over 3 to 5 months","A few hours in total"),
@@ -981,7 +996,7 @@ cost_chart = f'''<svg class="chart wide" viewBox="0 0 840 350" role="img" aria-l
 slide("", "Ameck vs doing it yourself", f'''
 <div class="hd"><span class="eyebrow">Ameck vs doing it yourself</span><h2>What a Rs. 5 lakh order really costs</h2></div>
 <div class="grid fill split" style="grid-template-columns:1.5fr .7fr;gap:2cqw">
-  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center">{cost_chart}</div>
+  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center"><div class="m-hide">{cost_chart}</div>{mlist("A Rs. 5 lakh order", [(lab, d[2], ("With Ameck: " + a[2]) if a else "With Ameck: included in our service") for lab,d,a in crow])}</div>
   <div class="hd m-swipe" style="gap:1.2cqw">
     <div class="card" style="background:var(--sea);color:var(--on-sea);border-color:var(--sea);gap:.5cqw"><b class="bigt" style="color:var(--marigold)">Rs. 1.5 to 1.75 lakh</b><p class="small">saved on product cost alone, about 30 to 35% lower, because we buy factory-direct and combine orders</p></div>
     <div class="card" style="gap:.4cqw"><h3 style="font-size:var(--b)">Lower duty too</h3><p class="small mute">Customs duty and IGST are charged on the product cost, so a lower price means lower duty.</p></div>
@@ -1006,21 +1021,21 @@ slide("paper", "Estimate your saving", f'''
     </div>
   </div>
   <div class="card" style="background:var(--sea);color:var(--on-sea);border-color:var(--sea);gap:1.1cqw;justify-content:center;padding:1.8cqw 2cqw">
-    <span class="eyebrow">Estimated saving a year</span>
-    <b class="calc-big" id="o-year" aria-live="polite">Rs. 6,00,000 to Rs. 10,00,000</b>
+    <span class="eyebrow">Estimated saving on product price, a year</span>
+    <b class="calc-big" id="o-year" aria-live="polite">Rs. 6,00,000 to Rs. 9,00,000</b>
     <div class="ratio" aria-hidden="true">
       <div class="rb"><span>Wholesale today</span><div class="track"><i style="width:100%;background:var(--rust)"></i></div></div>
-      <div class="rb"><span>With Ameck</span><div class="track"><i style="width:70%;background:var(--marigold);opacity:.45"></i><i style="width:50%;background:var(--marigold)"></i></div></div>
+      <div class="rb"><span>With Ameck</span><div class="track"><i style="width:70%;background:var(--marigold);opacity:.45"></i><i style="width:55%;background:var(--marigold)"></i></div></div>
     </div>
     <div class="grid g3" style="gap:1.2cqw">
-      <div class="kv"><span>Saved per order</span><b id="o-order">Rs. 1,50,000 to Rs. 2,50,000</b></div>
-      <div class="kv"><span>Your cost per order with Ameck</span><b id="o-cost">Rs. 2,50,000 to Rs. 3,50,000</b></div>
+      <div class="kv"><span>Saved per order</span><b id="o-order">Rs. 1,50,000 to Rs. 2,25,000</b></div>
+      <div class="kv"><span>Product price with Ameck</span><b id="o-cost">Rs. 2,75,000 to Rs. 3,50,000</b></div>
       <div class="kv"><span>Hours back a year</span><b id="o-hours">240 to 480</b></div>
     </div>
-    <p class="small" style="color:var(--on-sea-mute)"><b style="color:var(--on-sea)">Working:</b> <span id="o-work">Rs. 5,00,000 × 30% = Rs. 1,50,000 and Rs. 5,00,000 × 50% = Rs. 2,50,000 saved per order. Over 4 orders: Rs. 1,50,000 × 4 = Rs. 6,00,000 and Rs. 2,50,000 × 4 = Rs. 10,00,000.</span></p>
+    <p class="small" style="color:var(--on-sea-mute)"><b style="color:var(--on-sea)">Working:</b> <span id="o-work">Rs. 5,00,000 × 30% = Rs. 1,50,000 and Rs. 5,00,000 × 45% = Rs. 2,25,000 saved per order on product price. Over 4 orders: Rs. 1,50,000 × 4 = Rs. 6,00,000 and Rs. 2,25,000 × 4 = Rs. 9,00,000.</span></p>
   </div>
 </div>
-<p class="small mute">An illustrative estimate, based on typical savings of 30 to 50% on product cost against Indian wholesale and 60 to 120 hours for each self-managed shipment. Duty, GST and freight are extra. Your quote gives the exact figures.</p>''')
+<p class="small mute">An illustrative estimate. We buy premium goods direct from the factory and cut out the middlemen, which typically lowers the product price by 30 to 45% against Indian wholesale. Shipping is not included: it is charged by weight or volume, door to door, with customs duty included for most products. Time saved assumes 60 to 120 hours for each self-managed shipment. Your quote gives the exact figures.</p>''')
 
 # ---------------- GROW WITH US ----------------
 stairs = [

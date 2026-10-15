@@ -52,7 +52,7 @@ async def main():
             wide = await pg.evaluate("document.documentElement.scrollWidth")
             print("phone scrollWidth", wide)
             for i, s in enumerate(await pg.query_selector_all(".slide"), 1):
-                await s.scroll_into_view_if_needed(); await pg.wait_for_timeout(250)
+                await s.scroll_into_view_if_needed(); await pg.wait_for_timeout(1000)
                 await s.screenshot(path=str(shots / f"m{i:02d}.png"))
         await b.close()
 

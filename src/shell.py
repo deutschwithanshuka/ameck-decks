@@ -259,38 +259,30 @@ body.present .hint{right:auto;left:18px}
 
 /* ---------- phone and narrow screens ---------- */
 .m-only{display:none}
-.swipe-hint{display:none}
 .cwrap{max-width:100%}
 @media (max-width:820px){
   .s-in{--xs:11px;--s:13.5px;--b:15px;--l:17px;--h2:25px;--h1:40px;--stat:40px;--g:14px}
   .slide{border-radius:14px}
   .chrome{font-size:10px}
   h2{max-width:none}
-  .cwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
-  svg.chart.wide{min-width:560px}
-  svg.chart.wide-xl{min-width:720px}
   .phone{transform:none;box-shadow:0 20px 40px -16px rgba(10,30,35,.45)}
   .globe{max-width:420px;margin:0 auto}
-  div:has(> svg.chart.wide),div:has(> svg.chart.wide-xl){overflow-x:auto;-webkit-overflow-scrolling:touch}
   .m-only{display:block}
   .d-only,.m-hide{display:none!important}
-  .slide .s-in>.chrome:last-child{display:none}
-  .s-in{padding:20px 18px 22px;gap:16px}
-  .m-swipe{display:flex!important;grid-template-columns:none!important;flex-direction:row!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px!important;
-    margin-inline:-18px;padding:4px 18px 12px!important;scrollbar-width:none;-webkit-overflow-scrolling:touch;align-items:stretch}
-  .m-swipe::-webkit-scrollbar{display:none}
-  .m-swipe>*{flex:0 0 80%;scroll-snap-align:center;min-width:0;grid-column:auto!important}
-  .m-swipe>.flip>.flip-in{height:100%}
+  .slide .s-in>.chrome{display:none}
+  .s-in{padding:26px 20px 28px;gap:18px}
+  body.feed .deck{gap:16px}
+  .body{gap:18px}
+  /* phone: everything reads top to bottom, no sideways carousels */
+  .m-swipe{display:flex!important;grid-template-columns:none!important;flex-direction:column!important;gap:12px!important;align-items:stretch}
+  .m-swipe>*{flex:none;min-width:0;width:100%;grid-column:auto!important}
+  .m-stack{flex-direction:column!important;align-items:flex-start!important;flex-wrap:wrap!important}
+  .m-stack>*{text-align:left!important}
   .m-grid2{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
-  .swipe-hint{display:flex;align-items:center;gap:6px;justify-content:flex-end;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-top:-6px}
-  .dark .swipe-hint{color:var(--on-sea-mute)}
-  .swipe-hint i{display:inline-block;width:22px;height:2px;background:currentColor;border-radius:2px;animation:nudge 1.6s ease-in-out infinite}
-  @keyframes nudge{50%{transform:translateX(6px)}}
   table.t.mcards,table.t.mcards tbody{display:block}
   table.t.mcards thead{display:none}
-  table.t.mcards tbody{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:-18px;padding:4px 18px 12px;scrollbar-width:none}
-  table.t.mcards tbody::-webkit-scrollbar{display:none}
-  table.t.mcards tr{flex:0 0 80%;scroll-snap-align:center;display:flex;flex-direction:column;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 14px 26px -20px rgba(12,24,48,.5)}
+  table.t.mcards tbody{display:flex;flex-direction:column;gap:12px}
+  table.t.mcards tr{display:flex;flex-direction:column;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 14px 26px -20px rgba(12,24,48,.5)}
   table.t.mcards td{display:block;border:none!important;padding:0!important;width:auto!important}
   table.t.mcards td:first-child{font-family:var(--f-display);font-weight:600;font-size:17px}
   table.t.mcards td.diy,table.t.mcards td.ame{border-radius:10px;padding:10px 12px!important}
@@ -411,9 +403,6 @@ addEventListener('resize',apply);
   const onScroll=()=>{if(mode||drag)return;D.querySelectorAll('.fit').forEach(f=>{const r=f.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
     const c=(r.top+r.height/2)/innerHeight-.5;const p=f.querySelector('.plane');if(p)setT(p,c*-16,c*22)})};
   addEventListener('scroll',onScroll,{passive:true});onScroll()})();
-/* swipe hints under phone carousels */
-D.querySelectorAll('.m-swipe,table.mcards').forEach(el=>{const h=D.createElement('p');h.className='swipe-hint';h.setAttribute('aria-hidden','true');h.innerHTML='Swipe <i></i>';
-  (el.closest('.tablewrap')||el).insertAdjacentElement('afterend',h)});
 /* count-up numbers */
 function countUp(s){if(printMode||reduce)return;s.querySelectorAll('[data-count]').forEach(el=>{const to=+el.dataset.count,t0=performance.now();
   const st=now=>{const p=Math.min(1,(now-t0)/1200),e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(st)};requestAnimationFrame(st)})}
@@ -432,10 +421,10 @@ D.querySelectorAll('.chipbar[data-for]').forEach(cb=>{const sv=D.getElementById(
 /* savings estimator */
 (()=>{const c=D.getElementById('calc');if(!c)return;const v=c.querySelector('#cv'),n=c.querySelector('#cn'),nf=new Intl.NumberFormat('en-IN');
   const rs=x=>'Rs. '+nf.format(Math.round(x)),set=(id,t)=>{const e=c.querySelector('#'+id);if(e)e.textContent=t};
-  function upd(){const V=+v.value,N=+n.value,lo=V*0.30,hi=V*0.50;
+  function upd(){const V=+v.value,N=+n.value,lo=V*0.30,hi=V*0.45;
     set('cv-o',rs(V));set('cn-o',N+(N===1?' order':' orders'));
     set('o-year',rs(lo*N)+' to '+rs(hi*N));set('o-order',rs(lo)+' to '+rs(hi));set('o-cost',rs(V-hi)+' to '+rs(V-lo));set('o-hours',nf.format(60*N)+' to '+nf.format(120*N));
-    set('o-work',rs(V)+' × 30% = '+rs(lo)+' and '+rs(V)+' × 50% = '+rs(hi)+' saved per order. Over '+N+(N===1?' order':' orders')+': '+rs(lo)+' × '+N+' = '+rs(lo*N)+' and '+rs(hi)+' × '+N+' = '+rs(hi*N)+'.');
+    set('o-work',rs(V)+' × 30% = '+rs(lo)+' and '+rs(V)+' × 45% = '+rs(hi)+' saved per order on product price. Over '+N+(N===1?' order':' orders')+': '+rs(lo)+' × '+N+' = '+rs(lo*N)+' and '+rs(hi)+' × '+N+' = '+rs(hi*N)+'.');
     c.querySelectorAll('.presets button').forEach(b=>{const on=+b.dataset.v===V;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
     v.style.setProperty('--p',((V-v.min)/(v.max-v.min)*100).toFixed(2)+'%');n.style.setProperty('--p',((N-n.min)/(n.max-n.min)*100).toFixed(2)+'%')}
   v.addEventListener('input',upd);n.addEventListener('input',upd);
