@@ -33,7 +33,7 @@ Then check the screenshots, commit `index.html`, the PDF and the source, and pus
 - No em dashes or en dashes anywhere in the text. Use full stops or commas.
 - Money in Indian format with "Rs.", for example Rs. 5,00,000. Triple-check every price calculation and show the working.
 - Plain, short sentences written for the customer.
-- Business facts to keep correct: minimum 25 units and 20 kg per import or export shipment (any mix); customers need only GST, Ameck works under its own IEC and does 100% of the paperwork; product cost is paid 100% upfront, shipping is billed at actual cost after landing; no credit.
+- Business facts to keep correct: minimum 25 units and 20 kg per import or export shipment (any mix); customers need only GST, Ameck works under its own IEC and does 100% of the paperwork; product cost is paid 100% upfront, shipping is billed at actual cost after landing; no credit. Shipping is priced door to door, per CBM by sea or per kg (volumetric) by air, with customs duty included for about 95% of products. Product price saving claim: 30 to 45% against Indian wholesale (premium goods, middlemen cut out); the savings estimator excludes shipping.
 - Contact: WhatsApp and phone +91 83021 92742, info@ameckhouse.com, websites ameckhouse.in and ameckhouse.com, catalogue.ameckhouse.com. No office address.
 
 ## Check before pushing
