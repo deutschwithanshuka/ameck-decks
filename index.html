@@ -192,6 +192,13 @@ table.t.vs td{padding-top:.95cqw;padding-bottom:.95cqw}
 .s-span2{grid-column:span 2} .s-span3{grid-column:span 3}
 /* faq */
 .faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.3cqw 3cqw}
+/* phone-only readable lists that replace wide charts */
+.mlist{margin:0;display:flex;flex-direction:column}
+.mlist .mt{font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.mlist .mr{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+.mlist dt{font-size:var(--s);color:var(--ink)}
+.mlist dd{margin:0;font-weight:600;font-size:var(--s);text-align:right;color:var(--ink)}
+.mlist dd small{display:block;font-weight:400;color:var(--mute)}
 .faq div{border-top:1px solid var(--line);padding-top:.8cqw;display:flex;flex-direction:column;gap:.3cqw;min-width:0}
 .faq b{font-family:var(--f-display);font-weight:600;font-size:var(--b)}
 .faq p{font-size:var(--s);color:var(--mute)}
@@ -451,38 +458,30 @@ body.present .hint{right:auto;left:18px}
 
 /* ---------- phone and narrow screens ---------- */
 .m-only{display:none}
-.swipe-hint{display:none}
 .cwrap{max-width:100%}
 @media (max-width:820px){
   .s-in{--xs:11px;--s:13.5px;--b:15px;--l:17px;--h2:25px;--h1:40px;--stat:40px;--g:14px}
   .slide{border-radius:14px}
   .chrome{font-size:10px}
   h2{max-width:none}
-  .cwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
-  svg.chart.wide{min-width:560px}
-  svg.chart.wide-xl{min-width:720px}
   .phone{transform:none;box-shadow:0 20px 40px -16px rgba(10,35,30,.45)}
   .globe{max-width:420px;margin:0 auto}
-  div:has(> svg.chart.wide),div:has(> svg.chart.wide-xl){overflow-x:auto;-webkit-overflow-scrolling:touch}
   .m-only{display:block}
   .d-only,.m-hide{display:none!important}
-  .slide .s-in>.chrome:last-child{display:none}
-  .s-in{padding:20px 18px 22px;gap:16px}
-  .m-swipe{display:flex!important;grid-template-columns:none!important;flex-direction:row!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px!important;
-    margin-inline:-18px;padding:4px 18px 12px!important;scrollbar-width:none;-webkit-overflow-scrolling:touch;align-items:stretch}
-  .m-swipe::-webkit-scrollbar{display:none}
-  .m-swipe>*{flex:0 0 80%;scroll-snap-align:center;min-width:0;grid-column:auto!important}
-  .m-swipe>.flip>.flip-in{height:100%}
+  .slide .s-in>.chrome{display:none}
+  .s-in{padding:26px 20px 28px;gap:18px}
+  body.feed .deck{gap:16px}
+  .body{gap:18px}
+  /* phone: everything reads top to bottom, no sideways carousels */
+  .m-swipe{display:flex!important;grid-template-columns:none!important;flex-direction:column!important;gap:12px!important;align-items:stretch}
+  .m-swipe>*{flex:none;min-width:0;width:100%;grid-column:auto!important}
+  .m-stack{flex-direction:column!important;align-items:flex-start!important;flex-wrap:wrap!important}
+  .m-stack>*{text-align:left!important}
   .m-grid2{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
-  .swipe-hint{display:flex;align-items:center;gap:6px;justify-content:flex-end;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-top:-6px}
-  .dark .swipe-hint{color:var(--on-sea-mute)}
-  .swipe-hint i{display:inline-block;width:22px;height:2px;background:currentColor;border-radius:2px;animation:nudge 1.6s ease-in-out infinite}
-  @keyframes nudge{50%{transform:translateX(6px)}}
   table.t.mcards,table.t.mcards tbody{display:block}
   table.t.mcards thead{display:none}
-  table.t.mcards tbody{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:-18px;padding:4px 18px 12px;scrollbar-width:none}
-  table.t.mcards tbody::-webkit-scrollbar{display:none}
-  table.t.mcards tr{flex:0 0 80%;scroll-snap-align:center;display:flex;flex-direction:column;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 14px 26px -20px rgba(12,24,48,.5)}
+  table.t.mcards tbody{display:flex;flex-direction:column;gap:12px}
+  table.t.mcards tr{display:flex;flex-direction:column;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 14px 26px -20px rgba(12,24,48,.5)}
   table.t.mcards td{display:block;border:none!important;padding:0!important;width:auto!important}
   table.t.mcards td:first-child{font-family:var(--f-display);font-weight:600;font-size:17px}
   table.t.mcards td.diy,table.t.mcards td.ame{border-radius:10px;padding:10px 12px!important}
@@ -637,7 +636,7 @@ body.present .hint{right:auto;left:18px}
 </div></section><section class="slide paper" id="slide-8" aria-label="Slide 8: Market intelligence"><div class="s-in">
 <div class="chrome"><span class="mark"><i></i>Ameck House / Customer guide</span><span>08 / 30</span></div>
 <div class="body">
-<div class="row" style="justify-content:space-between;align-items:flex-end;gap:2cqw;flex-wrap:nowrap">
+<div class="row m-stack" style="justify-content:space-between;align-items:flex-end;gap:2cqw;flex-wrap:nowrap">
   <div class="hd"><span class="eyebrow">Market intelligence</span><h2>We also help you decide what to sell</h2></div>
   <div style="text-align:right;flex:none"><b class="num" style="font-size:var(--stat)">12 to 24</b><p class="small mute">months ahead of the Indian mainstream</p></div>
 </div>
@@ -672,7 +671,7 @@ body.present .hint{right:auto;left:18px}
       <li>Sample approval before bulk, pre-shipment inspection on every order</li>
     </ul>
   </div>
-  <div class="card" style="padding:1.6cqw 2cqw"><svg class="chart wide" viewBox="0 0 560 270" role="img" aria-label="Air freight takes 7 to 12 working days, sea freight 25 to 45 working days">
+  <div class="card" style="padding:1.6cqw 2cqw"><div class="m-hide"><svg class="chart wide" viewBox="0 0 560 270" role="img" aria-label="Air freight takes 7 to 12 working days, sea freight 25 to 45 working days">
 <line x1="70.0" y1="44" x2="70.0" y2="214" stroke="#E4D4C9" stroke-width="1"/><text x="70.0" y="236" text-anchor="middle" font-size="13" fill="#66756F">0</text><line x1="174.4" y1="44" x2="174.4" y2="214" stroke="#E4D4C9" stroke-width="1"/><text x="174.4" y="236" text-anchor="middle" font-size="13" fill="#66756F">10</text><line x1="278.9" y1="44" x2="278.9" y2="214" stroke="#E4D4C9" stroke-width="1"/><text x="278.9" y="236" text-anchor="middle" font-size="13" fill="#66756F">20</text><line x1="383.3" y1="44" x2="383.3" y2="214" stroke="#E4D4C9" stroke-width="1"/><text x="383.3" y="236" text-anchor="middle" font-size="13" fill="#66756F">30</text><line x1="487.8" y1="44" x2="487.8" y2="214" stroke="#E4D4C9" stroke-width="1"/><text x="487.8" y="236" text-anchor="middle" font-size="13" fill="#66756F">40</text>
 <line x1="70" y1="214" x2="540" y2="214" stroke="#14302A" stroke-width="1.5"/>
 <text x="0" y="100" font-size="16" font-weight="600" fill="#14302A">Air</text>
@@ -683,7 +682,7 @@ body.present .hint{right:auto;left:18px}
 <text x="321.1" y="178" text-anchor="end" font-size="14" fill="#14302A" font-weight="500">25 to 45 working days</text>
 <text x="540" y="262" text-anchor="end" font-size="12" fill="#66756F" class="mono">WORKING DAYS, DOOR TO DOOR</text>
 <text x="0" y="22" font-size="12" fill="#66756F" class="mono">CHOOSE YOUR SHIPPING MODE</text>
-</svg><p class="small mute">Insurance, tracking and customs handling are included with both modes. Samples travel by express courier.</p></div>
+</svg></div><dl class="mlist m-only"><div class="mt">Shipping mode, door to door</div><div class="mr"><dt>Air</dt><dd>7 to 12 working days</dd></div><div class="mr"><dt>Sea</dt><dd>25 to 45 working days</dd></div></dl><p class="small mute">Insurance, tracking and customs handling are included with both modes. Samples travel by express courier.</p></div>
 </div></div>
 <div class="chrome"><span>ameckhouse.in</span><span>Import from China</span></div>
 </div></section><section class="slide paper" id="slide-11" aria-label="Slide 11: Shipping and Delivery"><div class="s-in">
@@ -820,7 +819,7 @@ body.present .hint{right:auto;left:18px}
     <div class="grid g2" style="gap:1cqw">
       <div class="row" style="flex-wrap:nowrap;gap:.7em;align-items:center;padding:.9cqw 1.1cqw;border:1px dashed var(--rust);border-radius:8px"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span class="strike">Sourcing commission</span></div><div class="row" style="flex-wrap:nowrap;gap:.7em;align-items:center;padding:.9cqw 1.1cqw;border:1px dashed var(--rust);border-radius:8px"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span class="strike">Subscription fees</span></div><div class="row" style="flex-wrap:nowrap;gap:.7em;align-items:center;padding:.9cqw 1.1cqw;border:1px dashed var(--rust);border-radius:8px"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span class="strike">Forex markup</span></div><div class="row" style="flex-wrap:nowrap;gap:.7em;align-items:center;padding:.9cqw 1.1cqw;border:1px dashed var(--rust);border-radius:8px"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span class="strike">Agent cuts or hidden margins</span></div>
     </div>
-    <div class="card" style="background:var(--sea);color:var(--on-sea);border-color:var(--sea)"><b class="num" style="font-size:var(--stat)">30 to 50%</b><p>Typical saving on product cost against Indian wholesale, because we buy factory-direct and combine orders across customers.</p></div>
+    <div class="card" style="background:var(--sea);color:var(--on-sea);border-color:var(--sea)"><b class="num" style="font-size:var(--stat)">30 to 45%</b><p>Typical saving on product cost against Indian wholesale, because we buy factory-direct and combine orders across customers.</p></div>
     <p class="small mute">China imports follow this model. Brand building, corporate orders and export work are quoted individually in a written proposal.</p>
   </div>
 </div></div>
@@ -830,10 +829,10 @@ body.present .hint{right:auto;left:18px}
 <div class="body">
 <div class="hd"><span class="eyebrow">Timelines at a glance</span><h2>How fast things move</h2></div>
 <div class="grid g2 fill" style="gap:2cqw">
-  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center"><svg class="chart wide" viewBox="0 0 540 310" role="img" aria-label="Response times in hours">
-<text x="0" y="14" font-size="12" fill="#66756F" class="mono">HOW FAST WE RESPOND (HOURS)</text><line x1="200.0" y1="30" x2="200.0" y2="270" stroke="#E4D4C9"/><text x="200.0" y="290" text-anchor="middle" font-size="12" fill="#66756F">0</text><line x1="280.0" y1="30" x2="280.0" y2="270" stroke="#E4D4C9"/><text x="280.0" y="290" text-anchor="middle" font-size="12" fill="#66756F">12</text><line x1="360.0" y1="30" x2="360.0" y2="270" stroke="#E4D4C9"/><text x="360.0" y="290" text-anchor="middle" font-size="12" fill="#66756F">24</text><line x1="440.0" y1="30" x2="440.0" y2="270" stroke="#E4D4C9"/><text x="440.0" y="290" text-anchor="middle" font-size="12" fill="#66756F">36</text><line x1="520.0" y1="30" x2="520.0" y2="270" stroke="#E4D4C9"/><text x="520.0" y="290" text-anchor="middle" font-size="12" fill="#66756F">48</text><line x1="200" y1="270" x2="520" y2="270" stroke="#14302A" stroke-width="1.5"/><text x="0" y="56" font-size="14" fill="#14302A">Work starts after payment</text><rect x="200" y="40" width="26.7" height="22" rx="4" fill="#E3A1AD"/><text x="234.7" y="56" font-size="13" font-weight="600" text-anchor="start" fill="#14302A">within 4 h</text><text x="0" y="102" font-size="14" fill="#14302A">Logistics quote</text><rect x="200" y="86" width="26.7" height="22" rx="4" fill="#E3A1AD"/><text x="234.7" y="102" font-size="13" font-weight="600" text-anchor="start" fill="#14302A">within 4 h</text><text x="0" y="148" font-size="14" fill="#14302A">Corporate call back</text><rect x="200" y="132" width="40.0" height="22" rx="4" fill="#E3A1AD"/><text x="248.0" y="148" font-size="13" font-weight="600" text-anchor="start" fill="#14302A">within 4 to 6 h</text><text x="0" y="194" font-size="14" fill="#14302A">General enquiry reply</text><rect x="200" y="178" width="160.0" height="22" rx="4" fill="#E3A1AD"/><text x="368.0" y="194" font-size="13" font-weight="600" text-anchor="start" fill="#14302A">within 24 h</text><text x="0" y="240" font-size="14" fill="#14302A">Sourcing quote or proposal</text><rect x="200" y="224" width="320.0" height="22" rx="4" fill="#E3A1AD"/><text x="512.0" y="240" font-size="13" font-weight="600" text-anchor="end" fill="#14302A">within 48 h</text></svg></div>
-  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center"><svg class="chart wide" viewBox="0 0 540 310" role="img" aria-label="Transit and clearance in working days">
-<text x="0" y="14" font-size="12" fill="#66756F" class="mono">TRANSIT AND CLEARANCE (WORKING DAYS)</text><line x1="200.0" y1="30" x2="200.0" y2="270" stroke="#E4D4C9"/><text x="200.0" y="290" text-anchor="middle" font-size="12" fill="#66756F">0</text><line x1="271.1" y1="30" x2="271.1" y2="270" stroke="#E4D4C9"/><text x="271.1" y="290" text-anchor="middle" font-size="12" fill="#66756F">10</text><line x1="342.2" y1="30" x2="342.2" y2="270" stroke="#E4D4C9"/><text x="342.2" y="290" text-anchor="middle" font-size="12" fill="#66756F">20</text><line x1="413.3" y1="30" x2="413.3" y2="270" stroke="#E4D4C9"/><text x="413.3" y="290" text-anchor="middle" font-size="12" fill="#66756F">30</text><line x1="484.4" y1="30" x2="484.4" y2="270" stroke="#E4D4C9"/><text x="484.4" y="290" text-anchor="middle" font-size="12" fill="#66756F">40</text><line x1="200" y1="270" x2="520" y2="270" stroke="#14302A" stroke-width="1.5"/><text x="0" y="76" font-size="14" fill="#14302A">Customs clearance</text><rect x="214.2" y="60" width="7.1" height="22" rx="4" fill="#9CC5B4"/><text x="229.3" y="76" font-size="13" font-weight="600" fill="#14302A">2 to 3 days</text><text x="0" y="146" font-size="14" fill="#14302A">Air freight</text><rect x="249.8" y="130" width="35.6" height="22" rx="4" fill="#E3A1AD"/><text x="293.3" y="146" font-size="13" font-weight="600" fill="#14302A">7 to 12 days</text><text x="0" y="216" font-size="14" fill="#14302A">Sea freight</text><rect x="377.8" y="200" width="142.2" height="22" rx="4" fill="#174A40"/><text x="369.8" y="216" text-anchor="end" font-size="13" font-weight="600" fill="#14302A">25 to 45 days</text></svg></div>
+  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center"><div class="m-hide"><svg class="chart wide" viewBox="0 0 540 310" role="img" aria-label="Response times in hours">
+<text x="0" y="14" font-size="12" fill="#66756F" class="mono">HOW FAST WE RESPOND (HOURS)</text><line x1="200.0" y1="30" x2="200.0" y2="270" stroke="#E4D4C9"/><text x="200.0" y="290" text-anchor="middle" font-size="12" fill="#66756F">0</text><line x1="280.0" y1="30" x2="280.0" y2="270" stroke="#E4D4C9"/><text x="280.0" y="290" text-anchor="middle" font-size="12" fill="#66756F">12</text><line x1="360.0" y1="30" x2="360.0" y2="270" stroke="#E4D4C9"/><text x="360.0" y="290" text-anchor="middle" font-size="12" fill="#66756F">24</text><line x1="440.0" y1="30" x2="440.0" y2="270" stroke="#E4D4C9"/><text x="440.0" y="290" text-anchor="middle" font-size="12" fill="#66756F">36</text><line x1="520.0" y1="30" x2="520.0" y2="270" stroke="#E4D4C9"/><text x="520.0" y="290" text-anchor="middle" font-size="12" fill="#66756F">48</text><line x1="200" y1="270" x2="520" y2="270" stroke="#14302A" stroke-width="1.5"/><text x="0" y="56" font-size="14" fill="#14302A">Work starts after payment</text><rect x="200" y="40" width="26.7" height="22" rx="4" fill="#E3A1AD"/><text x="234.7" y="56" font-size="13" font-weight="600" text-anchor="start" fill="#14302A">within 4 h</text><text x="0" y="102" font-size="14" fill="#14302A">Logistics quote</text><rect x="200" y="86" width="26.7" height="22" rx="4" fill="#E3A1AD"/><text x="234.7" y="102" font-size="13" font-weight="600" text-anchor="start" fill="#14302A">within 4 h</text><text x="0" y="148" font-size="14" fill="#14302A">Corporate call back</text><rect x="200" y="132" width="40.0" height="22" rx="4" fill="#E3A1AD"/><text x="248.0" y="148" font-size="13" font-weight="600" text-anchor="start" fill="#14302A">within 4 to 6 h</text><text x="0" y="194" font-size="14" fill="#14302A">General enquiry reply</text><rect x="200" y="178" width="160.0" height="22" rx="4" fill="#E3A1AD"/><text x="368.0" y="194" font-size="13" font-weight="600" text-anchor="start" fill="#14302A">within 24 h</text><text x="0" y="240" font-size="14" fill="#14302A">Sourcing quote or proposal</text><rect x="200" y="224" width="320.0" height="22" rx="4" fill="#E3A1AD"/><text x="512.0" y="240" font-size="13" font-weight="600" text-anchor="end" fill="#14302A">within 48 h</text></svg></div><dl class="mlist m-only"><div class="mt">How fast we respond</div><div class="mr"><dt>Work starts after payment</dt><dd>within 4 h</dd></div><div class="mr"><dt>Logistics quote</dt><dd>within 4 h</dd></div><div class="mr"><dt>Corporate call back</dt><dd>within 4 to 6 h</dd></div><div class="mr"><dt>General enquiry reply</dt><dd>within 24 h</dd></div><div class="mr"><dt>Sourcing quote or proposal</dt><dd>within 48 h</dd></div></dl></div>
+  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center"><div class="m-hide"><svg class="chart wide" viewBox="0 0 540 310" role="img" aria-label="Transit and clearance in working days">
+<text x="0" y="14" font-size="12" fill="#66756F" class="mono">TRANSIT AND CLEARANCE (WORKING DAYS)</text><line x1="200.0" y1="30" x2="200.0" y2="270" stroke="#E4D4C9"/><text x="200.0" y="290" text-anchor="middle" font-size="12" fill="#66756F">0</text><line x1="271.1" y1="30" x2="271.1" y2="270" stroke="#E4D4C9"/><text x="271.1" y="290" text-anchor="middle" font-size="12" fill="#66756F">10</text><line x1="342.2" y1="30" x2="342.2" y2="270" stroke="#E4D4C9"/><text x="342.2" y="290" text-anchor="middle" font-size="12" fill="#66756F">20</text><line x1="413.3" y1="30" x2="413.3" y2="270" stroke="#E4D4C9"/><text x="413.3" y="290" text-anchor="middle" font-size="12" fill="#66756F">30</text><line x1="484.4" y1="30" x2="484.4" y2="270" stroke="#E4D4C9"/><text x="484.4" y="290" text-anchor="middle" font-size="12" fill="#66756F">40</text><line x1="200" y1="270" x2="520" y2="270" stroke="#14302A" stroke-width="1.5"/><text x="0" y="76" font-size="14" fill="#14302A">Customs clearance</text><rect x="214.2" y="60" width="7.1" height="22" rx="4" fill="#9CC5B4"/><text x="229.3" y="76" font-size="13" font-weight="600" fill="#14302A">2 to 3 days</text><text x="0" y="146" font-size="14" fill="#14302A">Air freight</text><rect x="249.8" y="130" width="35.6" height="22" rx="4" fill="#E3A1AD"/><text x="293.3" y="146" font-size="13" font-weight="600" fill="#14302A">7 to 12 days</text><text x="0" y="216" font-size="14" fill="#14302A">Sea freight</text><rect x="377.8" y="200" width="142.2" height="22" rx="4" fill="#174A40"/><text x="369.8" y="216" text-anchor="end" font-size="13" font-weight="600" fill="#14302A">25 to 45 days</text></svg></div><dl class="mlist m-only"><div class="mt">Transit and clearance</div><div class="mr"><dt>Customs clearance</dt><dd>2 to 3 working days</dd></div><div class="mr"><dt>Air freight</dt><dd>7 to 12 working days</dd></div><div class="mr"><dt>Sea freight</dt><dd>25 to 45 working days</dd></div></dl></div>
 </div>
 <p class="small mute">Freight times are door to door. Exact timelines depend on your product, supplier and destination, and your quote states the agreed timeline before you pay.</p></div>
 <div class="chrome"><span>ameckhouse.in</span><span>Timelines</span></div>
@@ -868,14 +867,14 @@ body.present .hint{right:auto;left:18px}
 <div class="hd"><span class="eyebrow">Ameck vs doing it yourself</span><h2>Import on your own, or hand it to us</h2></div>
 <div class="grid fill split m-swipe" style="grid-template-columns:1.15fr .85fr;gap:2cqw">
   <div class="path alone">
-    <div class="row" style="justify-content:space-between;align-items:flex-end;flex-wrap:nowrap;gap:1cqw">
+    <div class="row m-stack" style="justify-content:space-between;align-items:flex-end;flex-wrap:nowrap;gap:1cqw">
       <span class="chip rust">On your own: 8 jobs, all yours</span>
       <div style="text-align:right"><b class="bigt" style="color:var(--rust);font-size:clamp(22px,3cqw,38px)">60 to 120 h</b><p class="small mute">of your time per shipment, over 3 to 5 months</p></div>
     </div>
     <ol><li><span class="n">1</span><span>Search online directories and hope the supplier is real</span></li><li><span class="n">2</span><span>Pay a supplier you have never met</span></li><li><span class="n">3</span><span>Approve a sample and hope the bulk matches</span></li><li><span class="n">4</span><span>Work out HSN codes, customs duty and IGST</span></li><li><span class="n">5</span><span>Prepare the Bill of Entry, licences and every document</span></li><li><span class="n">6</span><span>Chase freight forwarders, the port and customs</span></li><li><span class="n">7</span><span>Handle customs queries, holds and demurrage</span></li><li><span class="n">8</span><span>Absorb any fraud, defect, delay or penalty yourself</span></li></ol>
   </div>
   <div class="path us">
-    <div class="row" style="justify-content:space-between;align-items:flex-end;flex-wrap:nowrap;gap:1cqw">
+    <div class="row m-stack" style="justify-content:space-between;align-items:flex-end;flex-wrap:nowrap;gap:1cqw">
       <span class="chip gold">With Ameck: 3 steps</span>
       <div style="text-align:right"><b class="bigt" style="color:var(--marigold);font-size:clamp(22px,3cqw,38px)">A few hours</b><p class="small" style="color:var(--on-sea-mute)">of your time, in total</p></div>
     </div>
@@ -891,7 +890,7 @@ body.present .hint{right:auto;left:18px}
 <div class="hd"><span class="eyebrow">Ameck vs doing it yourself</span><h2>The same import, two very different experiences</h2></div>
 <div class="tablewrap fill"><table class="t vs mcards">
 <thead><tr><th style="width:18%"></th><th class="diy" style="width:41%">On your own</th><th class="ame">With Ameck</th></tr></thead>
-<tbody><tr><td>Finding a supplier</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>Online directories with no way to check them</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>A verified network, with due diligence on every supplier</span></td></tr><tr><td>What to import</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>What is already sold locally, and already crowded</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>Trends spotted 12 to 24 months before the Indian mainstream</span></td></tr><tr><td>Price</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>Whatever the supplier quotes</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>Factory-direct, typically 30 to 50% below wholesale</span></td></tr><tr><td>Quality</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>Approve a sample and hope the bulk matches</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>Mid-production and pre-shipment inspection on every order</span></td></tr><tr><td>Customs and paperwork</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>IEC, HSN, Bill of Entry, IGST, BIS, FSSAI. One error can cost weeks.</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>100% handled by us, under our own IEC</span></td></tr><tr><td>Your time</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>60 to 120 hours per shipment, over 3 to 5 months</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>A few hours in total</span></td></tr><tr><td>Risk</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>Fraud, quality failure and penalties fall on you</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>Managed through supplier checks, inspections and insurance</span></td></tr></tbody>
+<tbody><tr><td>Finding a supplier</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>Online directories with no way to check them</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>A verified network, with due diligence on every supplier</span></td></tr><tr><td>What to import</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>What is already sold locally, and already crowded</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>Trends spotted 12 to 24 months before the Indian mainstream</span></td></tr><tr><td>Price</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>Whatever the supplier quotes</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>Factory-direct, typically 30 to 45% below wholesale</span></td></tr><tr><td>Quality</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>Approve a sample and hope the bulk matches</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>Mid-production and pre-shipment inspection on every order</span></td></tr><tr><td>Customs and paperwork</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>IEC, HSN, Bill of Entry, IGST, BIS, FSSAI. One error can cost weeks.</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>100% handled by us, under our own IEC</span></td></tr><tr><td>Your time</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>60 to 120 hours per shipment, over 3 to 5 months</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>A few hours in total</span></td></tr><tr><td>Risk</td><td class="diy" data-l="On your own"><span class="cell"><span class="x"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><span>Fraud, quality failure and penalties fall on you</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>Managed through supplier checks, inspections and insurance</span></td></tr></tbody>
 </table></div>
 <div class="callout"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg> Not sure which route suits you? Tell us what you want to import. We will give you an honest landed cost estimate.</div></div>
 <div class="chrome"><span>ameckhouse.in</span><span>Ameck vs doing it yourself</span></div>
@@ -900,12 +899,12 @@ body.present .hint{right:auto;left:18px}
 <div class="body">
 <div class="hd"><span class="eyebrow">Ameck vs doing it yourself</span><h2>What a Rs. 5 lakh order really costs</h2></div>
 <div class="grid fill split" style="grid-template-columns:1.5fr .7fr;gap:2cqw">
-  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center"><svg class="chart wide" viewBox="0 0 840 350" role="img" aria-label="Rs. 5 lakh order: product cost Rs. 5,00,000 on your own vs Rs. 3,25,000 to 3,50,000 with Ameck">
+  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center"><div class="m-hide"><svg class="chart wide" viewBox="0 0 840 350" role="img" aria-label="Rs. 5 lakh order: product cost Rs. 5,00,000 on your own vs Rs. 3,25,000 to 3,50,000 with Ameck">
 <text x="0" y="16" font-size="12" fill="#66756F" class="mono">COST OF A RS. 5 LAKH FACTORY-PRICE ORDER (RS., L = LAKH)</text>
 <g class="mono" font-size="12" fill="#66756F"><rect x="560" y="5" width="14" height="14" rx="2" fill="#B4485C"/><text x="580" y="16">ON YOUR OWN</text><rect x="690" y="5" width="14" height="14" rx="2" fill="#174A40"/><text x="710" y="16">WITH AMECK</text></g>
 <line x1="250.0" y1="44" x2="250.0" y2="318" stroke="#E4D4C9"/><text x="250.0" y="338" text-anchor="middle" font-size="12" fill="#66756F">0</text><line x1="362.0" y1="44" x2="362.0" y2="318" stroke="#E4D4C9"/><text x="362.0" y="338" text-anchor="middle" font-size="12" fill="#66756F">1 L</text><line x1="474.0" y1="44" x2="474.0" y2="318" stroke="#E4D4C9"/><text x="474.0" y="338" text-anchor="middle" font-size="12" fill="#66756F">2 L</text><line x1="586.0" y1="44" x2="586.0" y2="318" stroke="#E4D4C9"/><text x="586.0" y="338" text-anchor="middle" font-size="12" fill="#66756F">3 L</text><line x1="698.0" y1="44" x2="698.0" y2="318" stroke="#E4D4C9"/><text x="698.0" y="338" text-anchor="middle" font-size="12" fill="#66756F">4 L</text><line x1="810.0" y1="44" x2="810.0" y2="318" stroke="#E4D4C9"/><text x="810.0" y="338" text-anchor="middle" font-size="12" fill="#66756F">5 L</text><line x1="250" y1="318" x2="810.0" y2="318" stroke="#14302A" stroke-width="1.5"/>
 <line x1="250" y1="44" x2="250" y2="318" stroke="#14302A" stroke-width="1.5"/>
-<text x="0" y="84" font-size="15" font-weight="600" fill="#14302A">Product cost</text><rect x="250" y="58" width="560.0" height="22" rx="3" fill="#B4485C"/><text x="800.0" y="74" text-anchor="end" font-size="13" font-weight="600" fill="#FCF8F5">Rs. 5,00,000</text><rect x="250" y="88" width="364.0" height="22" rx="3" fill="#174A40"/><rect x="614.0" y="88" width="28.0" height="22" rx="3" fill="#174A40" opacity=".4"/><text x="652.0" y="104" font-size="13" font-weight="600" fill="#14302A">Rs. 3,25,000 to 3,50,000</text><text x="0" y="176" font-size="15" font-weight="600" fill="#14302A">Freight</text><rect x="250" y="150" width="44.8" height="22" rx="3" fill="#B4485C"/><rect x="294.8" y="150" width="22.4" height="22" rx="3" fill="#B4485C" opacity=".4"/><text x="327.2" y="166" font-size="13" fill="#14302A">Rs. 40,000 to 60,000</text><rect x="250" y="180" width="39.2" height="22" rx="3" fill="#174A40"/><rect x="289.2" y="180" width="16.8" height="22" rx="3" fill="#174A40" opacity=".4"/><text x="316.0" y="196" font-size="13" font-weight="600" fill="#14302A">Rs. 35,000 to 50,000</text><text x="0" y="268" font-size="15" font-weight="600" fill="#14302A">Customs agent and handling</text><rect x="250" y="242" width="9.0" height="22" rx="3" fill="#B4485C"/><rect x="259.0" y="242" width="7.8" height="22" rx="3" fill="#B4485C" opacity=".4"/><text x="276.8" y="258" font-size="13" fill="#14302A">Rs. 8,000 to 15,000</text><text x="256" y="288" font-size="13" font-weight="600" fill="#174A40">Included in our service</text></svg></div>
+<text x="0" y="84" font-size="15" font-weight="600" fill="#14302A">Product cost</text><rect x="250" y="58" width="560.0" height="22" rx="3" fill="#B4485C"/><text x="800.0" y="74" text-anchor="end" font-size="13" font-weight="600" fill="#FCF8F5">Rs. 5,00,000</text><rect x="250" y="88" width="364.0" height="22" rx="3" fill="#174A40"/><rect x="614.0" y="88" width="28.0" height="22" rx="3" fill="#174A40" opacity=".4"/><text x="652.0" y="104" font-size="13" font-weight="600" fill="#14302A">Rs. 3,25,000 to 3,50,000</text><text x="0" y="176" font-size="15" font-weight="600" fill="#14302A">Freight</text><rect x="250" y="150" width="44.8" height="22" rx="3" fill="#B4485C"/><rect x="294.8" y="150" width="22.4" height="22" rx="3" fill="#B4485C" opacity=".4"/><text x="327.2" y="166" font-size="13" fill="#14302A">Rs. 40,000 to 60,000</text><rect x="250" y="180" width="39.2" height="22" rx="3" fill="#174A40"/><rect x="289.2" y="180" width="16.8" height="22" rx="3" fill="#174A40" opacity=".4"/><text x="316.0" y="196" font-size="13" font-weight="600" fill="#14302A">Rs. 35,000 to 50,000</text><text x="0" y="268" font-size="15" font-weight="600" fill="#14302A">Customs agent and handling</text><rect x="250" y="242" width="9.0" height="22" rx="3" fill="#B4485C"/><rect x="259.0" y="242" width="7.8" height="22" rx="3" fill="#B4485C" opacity=".4"/><text x="276.8" y="258" font-size="13" fill="#14302A">Rs. 8,000 to 15,000</text><text x="256" y="288" font-size="13" font-weight="600" fill="#174A40">Included in our service</text></svg></div><dl class="mlist m-only"><div class="mt">A Rs. 5 lakh order</div><div class="mr"><dt>Product cost</dt><dd>Rs. 5,00,000<small>With Ameck: Rs. 3,25,000 to 3,50,000</small></dd></div><div class="mr"><dt>Freight</dt><dd>Rs. 40,000 to 60,000<small>With Ameck: Rs. 35,000 to 50,000</small></dd></div><div class="mr"><dt>Customs agent and handling</dt><dd>Rs. 8,000 to 15,000<small>With Ameck: included in our service</small></dd></div></dl></div>
   <div class="hd m-swipe" style="gap:1.2cqw">
     <div class="card" style="background:var(--sea);color:var(--on-sea);border-color:var(--sea);gap:.5cqw"><b class="bigt" style="color:var(--marigold)">Rs. 1.5 to 1.75 lakh</b><p class="small">saved on product cost alone, about 30 to 35% lower, because we buy factory-direct and combine orders</p></div>
     <div class="card" style="gap:.4cqw"><h3 style="font-size:var(--b)">Lower duty too</h3><p class="small mute">Customs duty and IGST are charged on the product cost, so a lower price means lower duty.</p></div>
@@ -932,21 +931,21 @@ body.present .hint{right:auto;left:18px}
     </div>
   </div>
   <div class="card" style="background:var(--sea);color:var(--on-sea);border-color:var(--sea);gap:1.1cqw;justify-content:center;padding:1.8cqw 2cqw">
-    <span class="eyebrow">Estimated saving a year</span>
-    <b class="calc-big" id="o-year" aria-live="polite">Rs. 6,00,000 to Rs. 10,00,000</b>
+    <span class="eyebrow">Estimated saving on product price, a year</span>
+    <b class="calc-big" id="o-year" aria-live="polite">Rs. 6,00,000 to Rs. 9,00,000</b>
     <div class="ratio" aria-hidden="true">
       <div class="rb"><span>Wholesale today</span><div class="track"><i style="width:100%;background:var(--rust)"></i></div></div>
-      <div class="rb"><span>With Ameck</span><div class="track"><i style="width:70%;background:var(--marigold);opacity:.45"></i><i style="width:50%;background:var(--marigold)"></i></div></div>
+      <div class="rb"><span>With Ameck</span><div class="track"><i style="width:70%;background:var(--marigold);opacity:.45"></i><i style="width:55%;background:var(--marigold)"></i></div></div>
     </div>
     <div class="grid g3" style="gap:1.2cqw">
-      <div class="kv"><span>Saved per order</span><b id="o-order">Rs. 1,50,000 to Rs. 2,50,000</b></div>
-      <div class="kv"><span>Your cost per order with Ameck</span><b id="o-cost">Rs. 2,50,000 to Rs. 3,50,000</b></div>
+      <div class="kv"><span>Saved per order</span><b id="o-order">Rs. 1,50,000 to Rs. 2,25,000</b></div>
+      <div class="kv"><span>Product price with Ameck</span><b id="o-cost">Rs. 2,75,000 to Rs. 3,50,000</b></div>
       <div class="kv"><span>Hours back a year</span><b id="o-hours">240 to 480</b></div>
     </div>
-    <p class="small" style="color:var(--on-sea-mute)"><b style="color:var(--on-sea)">Working:</b> <span id="o-work">Rs. 5,00,000 × 30% = Rs. 1,50,000 and Rs. 5,00,000 × 50% = Rs. 2,50,000 saved per order. Over 4 orders: Rs. 1,50,000 × 4 = Rs. 6,00,000 and Rs. 2,50,000 × 4 = Rs. 10,00,000.</span></p>
+    <p class="small" style="color:var(--on-sea-mute)"><b style="color:var(--on-sea)">Working:</b> <span id="o-work">Rs. 5,00,000 × 30% = Rs. 1,50,000 and Rs. 5,00,000 × 45% = Rs. 2,25,000 saved per order on product price. Over 4 orders: Rs. 1,50,000 × 4 = Rs. 6,00,000 and Rs. 2,25,000 × 4 = Rs. 9,00,000.</span></p>
   </div>
 </div>
-<p class="small mute">An illustrative estimate, based on typical savings of 30 to 50% on product cost against Indian wholesale and 60 to 120 hours for each self-managed shipment. Duty, GST and freight are extra. Your quote gives the exact figures.</p></div>
+<p class="small mute">An illustrative estimate. We buy premium goods direct from the factory and cut out the middlemen, which typically lowers the product price by 30 to 45% against Indian wholesale. Shipping is not included: it is charged by weight or volume, door to door, with customs duty included for most products. Time saved assumes 60 to 120 hours for each self-managed shipment. Your quote gives the exact figures.</p></div>
 <div class="chrome"><span>ameckhouse.in</span><span>Estimate your saving</span></div>
 </div></section><section class="slide paper" id="slide-27" aria-label="Slide 27: Grow with us"><div class="s-in">
 <div class="chrome"><span class="mark"><i></i>Ameck House / Customer guide</span><span>27 / 30</span></div>
@@ -1117,9 +1116,6 @@ addEventListener('resize',apply);
   const onScroll=()=>{if(mode||drag)return;D.querySelectorAll('.fit').forEach(f=>{const r=f.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
     const c=(r.top+r.height/2)/innerHeight-.5;const p=f.querySelector('.plane');if(p)setT(p,c*-16,c*22)})};
   addEventListener('scroll',onScroll,{passive:true});onScroll()})();
-/* swipe hints under phone carousels */
-D.querySelectorAll('.m-swipe,table.mcards').forEach(el=>{const h=D.createElement('p');h.className='swipe-hint';h.setAttribute('aria-hidden','true');h.innerHTML='Swipe <i></i>';
-  (el.closest('.tablewrap')||el).insertAdjacentElement('afterend',h)});
 /* count-up numbers */
 function countUp(s){if(printMode||reduce)return;s.querySelectorAll('[data-count]').forEach(el=>{const to=+el.dataset.count,t0=performance.now();
   const st=now=>{const p=Math.min(1,(now-t0)/1200),e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(st)};requestAnimationFrame(st)})}
@@ -1138,10 +1134,10 @@ D.querySelectorAll('.chipbar[data-for]').forEach(cb=>{const sv=D.getElementById(
 /* savings estimator */
 (()=>{const c=D.getElementById('calc');if(!c)return;const v=c.querySelector('#cv'),n=c.querySelector('#cn'),nf=new Intl.NumberFormat('en-IN');
   const rs=x=>'Rs. '+nf.format(Math.round(x)),set=(id,t)=>{const e=c.querySelector('#'+id);if(e)e.textContent=t};
-  function upd(){const V=+v.value,N=+n.value,lo=V*0.30,hi=V*0.50;
+  function upd(){const V=+v.value,N=+n.value,lo=V*0.30,hi=V*0.45;
     set('cv-o',rs(V));set('cn-o',N+(N===1?' order':' orders'));
     set('o-year',rs(lo*N)+' to '+rs(hi*N));set('o-order',rs(lo)+' to '+rs(hi));set('o-cost',rs(V-hi)+' to '+rs(V-lo));set('o-hours',nf.format(60*N)+' to '+nf.format(120*N));
-    set('o-work',rs(V)+' × 30% = '+rs(lo)+' and '+rs(V)+' × 50% = '+rs(hi)+' saved per order. Over '+N+(N===1?' order':' orders')+': '+rs(lo)+' × '+N+' = '+rs(lo*N)+' and '+rs(hi)+' × '+N+' = '+rs(hi*N)+'.');
+    set('o-work',rs(V)+' × 30% = '+rs(lo)+' and '+rs(V)+' × 45% = '+rs(hi)+' saved per order on product price. Over '+N+(N===1?' order':' orders')+': '+rs(lo)+' × '+N+' = '+rs(lo*N)+' and '+rs(hi)+' × '+N+' = '+rs(hi*N)+'.');
     c.querySelectorAll('.presets button').forEach(b=>{const on=+b.dataset.v===V;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
     v.style.setProperty('--p',((V-v.min)/(v.max-v.min)*100).toFixed(2)+'%');n.style.setProperty('--p',((N-n.min)/(n.max-n.min)*100).toFixed(2)+'%')}
   v.addEventListener('input',upd);n.addEventListener('input',upd);
