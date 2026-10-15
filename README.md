@@ -4,13 +4,9 @@ A 30-slide interactive guide to how Ameck Business House sources, checks, ships 
 
 ## Open it
 
-The deck is live at **https://decks.ameckhouse.com**
+Once GitHub Pages is on (Settings, then Pages, then deploy from the `main` branch, root folder), the deck is live at:
 
-Setup, done once:
-
-1. DNS for ameckhouse.com has a CNAME record: `decks` pointing to `deutschwithanshuka.github.io`.
-2. GitHub Pages is on: Settings, then Pages, deploy from the `main` branch, root folder.
-3. Custom domain in Pages is `decks.ameckhouse.com`, with Enforce HTTPS ticked. The `CNAME` file in this repo holds the same domain.
+`https://<your-github-username>.github.io/<this-repo-name>/`
 
 ## Presenting
 
@@ -39,3 +35,7 @@ The PDF button in the bar downloads `Ameck-How-We-Work.pdf`, which you can email
 
 - `index.html`: the deck, one self-contained page. Fonts are built in. The rotating globe loads three.js from cdnjs.
 - `Ameck-How-We-Work.pdf`: the same slides as a PDF.
+
+## Editing the deck
+
+The deck is generated from the files in `src/`. See `CLAUDE.md` for how to rebuild and the rules to follow. Easiest way: open this repo in Claude Code and describe the change you want.
