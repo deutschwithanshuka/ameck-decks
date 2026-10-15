@@ -229,22 +229,18 @@ svg .pin:hover{r:7}
 .globe.no-gl .globe-fallback{display:block}
 .globe-cap{font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.1em;text-transform:uppercase;color:var(--on-sea-mute);text-align:center}
 
-/* ---------- WhatsApp ---------- */
-.wa-fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:55;display:inline-flex;align-items:center;gap:8px;
-  padding:12px 16px;border-radius:999px;background:var(--wa);color:#06321A;font-family:var(--f-body);font-weight:600;font-size:14px;text-decoration:none;
-  box-shadow:0 12px 30px -10px rgba(18,140,75,.65),0 0 0 0 rgba(37,211,102,.5);animation:wapulse 2.8s ease-out infinite}
-.wa-fab .ic{width:20px;height:20px}
-.wa-fab:hover{background:#2EE673}
-.wa-fab:focus-visible{outline:3px solid var(--marigold);outline-offset:3px}
-@keyframes wapulse{0%{box-shadow:0 12px 30px -10px rgba(18,140,75,.65),0 0 0 0 rgba(37,211,102,.45)}70%{box-shadow:0 12px 30px -10px rgba(18,140,75,.65),0 0 0 16px rgba(37,211,102,0)}100%{box-shadow:0 12px 30px -10px rgba(18,140,75,.65),0 0 0 0 rgba(37,211,102,0)}}
-@media (prefers-reduced-motion:reduce){.wa-fab{animation:none}}
+/* ---------- WhatsApp (in the control bar) ---------- */
+.ctrl .sep{width:1px;height:18px;background:rgba(232,240,238,.18);margin:0 4px;flex:none}
+.ctrl .wa-btn{all:unset;cursor:pointer;padding:9px 13px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;text-transform:uppercase}
+.ctrl .wa-btn .ic{color:var(--marigold)}
+.ctrl .wa-btn:hover{background:rgba(232,240,238,.12)}
+.ctrl .wa-btn:focus-visible{outline:2px solid var(--marigold);outline-offset:1px}
 body.present .hint{right:auto;left:18px}
 .wa-cta{display:inline-flex;align-items:center;gap:.6em;padding:.8em 1.3em;border-radius:999px;background:var(--wa);color:#06321A;font-weight:700;font-size:var(--l);text-decoration:none;
   box-shadow:0 18px 36px -16px rgba(18,140,75,.8);transition:transform .25s,box-shadow .25s;align-self:flex-start}
 .wa-cta .ic{width:1.3em;height:1.3em}
 .wa-cta:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 24px 40px -16px rgba(18,140,75,.9)}
 .wa-cta:focus-visible{outline:3px solid var(--marigold);outline-offset:3px}
-@media print{.wa-fab{display:none!important}}
 
 /* ---------- 3D floating container (closing slide) ---------- */
 .crate{width:220px;height:200px;position:relative;margin:0 auto;perspective:900px}
@@ -300,8 +296,7 @@ body.present .hint{right:auto;left:18px}
   table.t.mcards td.diy,table.t.mcards td.ame{border-radius:10px;padding:10px 12px!important}
   table.t.mcards td[data-l]::before{content:attr(data-l);display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;opacity:.75}
   .tablewrap{overflow:visible!important}
-  .wa-fab{padding:13px;right:calc(14px + env(safe-area-inset-right,0px))}
-  .wa-fab span{display:none}
+  .ctrl .wa-btn span{display:none}
 }
 """
 
@@ -511,7 +506,7 @@ CTRL_HTML = """<div class="bar" aria-hidden="true"><i></i></div>
 <p class="hint">Arrow keys or swipe to move / F for full screen</p>
 <div id="toc" hidden role="dialog" aria-label="Contents"><div class="panel"><button class="close">Close</button><h2>Contents</h2><div class="list"></div></div></div>"""
 
-WA_FAB = f'<a class="wa-fab" href="{WA_URL}" target="_blank" rel="noopener" aria-label="Chat with Ameck on WhatsApp">{WA_ICON}<span>WhatsApp</span></a>'
+WA_BTN = f'<span class="sep" aria-hidden="true"></span><a class="wa-btn" href="{WA_URL}" target="_blank" rel="noopener" aria-label="Chat with Ameck on WhatsApp">{WA_ICON}<span>WhatsApp</span></a>'
 
 def assemble(slides, title, brand_left, footer_left, head_label, base_css, sprite, three_src=THREE_CDN, whatsapp=False):
     N = len(slides)
@@ -530,8 +525,7 @@ def assemble(slides, title, brand_left, footer_left, head_label, base_css, sprit
 <main class="deck">
 {"".join(parts)}
 </main>
-{CTRL_HTML}
-{WA_FAB if whatsapp else ''}
+{CTRL_HTML.replace('</nav>', WA_BTN + chr(10) + '</nav>') if whatsapp else CTRL_HTML}
 <script src="{three_src}"></script>
 <script>const GLOBE_PTS={GLOBE_PTS};const HUBS={json.dumps(HUBS)};
 {SHELL_JS}</script>
