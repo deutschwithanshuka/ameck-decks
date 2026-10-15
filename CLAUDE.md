@@ -13,9 +13,9 @@ This repo is the public sales deck "How Ameck Works" for Ameck Business House, s
 - `src/shell.py`: shared look and behaviour: colour palette (`SOFT` map, applied over the original hex codes), laptop slide mode, phone scroll mode, controls, 3D helpers (`box`, `bb`, `scene`), WebGL globe, WhatsApp button (`WA_NUMBER`, `WA_TEXT`).
 - `src/render.py`: renders the PDF and screenshots with Playwright, and checks every slide fits.
 - `src/build_site.py`: writes the final `index.html` (adds the PDF button and page metadata) and copies the PDF to the repo root.
-- `fonts/` (Archivo, IBM Plex Sans and Mono, OFL licence) and `map/` (world map and globe points) are build inputs.
+- `fonts/` (Bodoni Moda for headings, Figtree for text, OFL licence) and `map/` (world map and globe points) are build inputs.
 
-Rebuild after any change, from `src/`:
+Rebuild after any change, from `src/` (needs Python 3.12 or newer):
 
 ```
 pip install playwright && python -m playwright install chromium   # first time only
