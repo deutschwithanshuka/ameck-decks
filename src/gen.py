@@ -785,7 +785,7 @@ slide("", "Licences and compliance", f"""
 <div class="ledger"><span class="mono small mute" style="margin-right:.6cqw">ON EVERY SHIPMENT</span>{"".join(f'<span class="chip">{l}</span>' for l in ledger)}</div>""")
 
 # ---------------- 14 WHAT YOU PAY ----------------
-_slabs=[("Factory price","Paid upfront, at our negotiated price",0,92,TEAL),("Duty and GST","Customs duty and GST, on your account",128,34,MINT),("Actual freight","Estimated, then billed after landing",200,40,GOLD)]
+_slabs=[("Factory price","Paid upfront, at our negotiated price",0,92,TEAL),("Shipping, duty included","Door to door, per CBM by sea or per kg by air",128,34,MINT),("GST","As applicable, shown on your invoice",200,40,GOLD)]
 _tw='<div class="ground" style="border-radius:24px"></div>'
 for nm,ds,z,h,col in _slabs:
     _tw+=box(30,30,170,170,h,col,z=z,inner=bb(f'<div class="lbl3d"><b>{nm}</b><span>{ds}</span></div>',left="100%",top="100%",lift=-h//2,cls="r",lw=250))
@@ -796,7 +796,7 @@ for nm,ds,z,h,col in _slabs:
 _twm+=bb('<span class="tag3d" style="background:var(--sea);color:var(--marigold);font-size:14px;padding:7px 12px">= Your landed cost</span>',left="115px",top="115px",lift=300)
 tower_m=scene(340,430,_twm,230,230,55,190,58,-42,persp=1900,label="A 3D stack of factory price, duty and GST, and freight")
 legend_m='<div class="hd" style="gap:8px">'+"".join(f'<div class="row" style="flex-wrap:nowrap;gap:10px;align-items:center"><i style="flex:none;width:14px;height:14px;border-radius:4px;background:{col[0]}"></i><span><b>{nm}</b> <span class="mute small">{ds}</span></span></div>' for nm,ds,z,h,col in reversed(_slabs))+'</div>'
-tower=scene(560,470,_tw,230,230,40,215,58,-42,persp=1900,label="A 3D stack: factory price at the base, duty and GST in the middle, actual freight on top, together making your landed cost")
+tower=scene(560,470,_tw,230,230,40,215,58,-42,persp=1900,label="A 3D stack: factory price at the base, shipping with duty included in the middle, GST on top, together making your landed cost")
 slide("paper", "What you pay", f'''
 <div class="hd"><span class="eyebrow">What you pay</span><h2 style="max-width:none">The factory price and the real freight. Nothing hidden.</h2></div>
 <div class="grid fill split" style="grid-template-columns:1.05fr .95fr;gap:2.4cqw;align-items:center">
