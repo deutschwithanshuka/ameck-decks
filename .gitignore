@@ -4,3 +4,6 @@ src/Ameck-How-We-Work.pdf
 src/shots/
 src/__pycache__/
 map/node_modules/
+.venv/
+.venv312/
+.claude/
