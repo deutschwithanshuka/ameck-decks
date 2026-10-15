@@ -58,6 +58,7 @@ body{background:var(--page-bg);color:var(--page-fg);font-family:var(--f-body);-w
 .eyebrow{font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.18em;text-transform:uppercase;color:var(--rust);font-weight:600}
 .dark .eyebrow{color:var(--marigold)}
 h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance}
+.kw{letter-spacing:-.07em}
 h1{font-size:var(--h1);font-weight:500;line-height:1;letter-spacing:-.015em}
 h1 em,h2 em{font-style:italic;font-weight:500;color:var(--rust)}
 .dark h1 em,.dark h2 em{color:var(--marigold)}
@@ -220,6 +221,13 @@ a{color:inherit;text-decoration-color:var(--marigold);text-underline-offset:.18e
   .eq{flex-direction:column} .eq .op{padding:2px 0}
   .split{grid-template-columns:minmax(0,1fr)!important}
   .tablewrap{overflow-x:auto}
+  .contact{grid-template-columns:minmax(0,1fr);gap:0}
+  .contact dt{font-size:11px;letter-spacing:.14em;padding-top:12px;border-top:1px solid var(--sea-line)}
+  .contact dt:first-child{padding-top:0;border-top:0}
+  .contact dd{font-size:17px;font-weight:500;line-height:1.35;padding:3px 0 12px;overflow-wrap:anywhere}
+  .contact dd.small{font-size:15px}
+  .closer{font-size:26px;line-height:1.15}
+  h1,h2{font-weight:600;letter-spacing:0}
 }
 @media (prefers-reduced-motion:no-preference){.slide{transition:box-shadow .2s}}
 @page{size:1280px 720px;margin:0}
@@ -957,6 +965,13 @@ slide("dark", "Get started", f'''
 
 # ---------------- ASSEMBLE ----------------
 SLIDES = [x for x in SLIDES if x[1] != "Ready Stock Store"]
+# Bodoni Moda has no kerning for W before small letters ("We" shows a gap), so tighten it in display text.
+import re as _re
+def _kern_w(body):
+    def fix(m):
+        return "".join(t if t.startswith("<") else _re.sub(r"W(?=[aeoruy])", '<span class="kw">W</span>', t) for t in _re.split(r"(<[^>]+>)", m.group(0)))
+    return _re.sub(r'<(h[123])\b[^>]*>.*?</\1>|<p class="(?:closer|mission)"[^>]*>.*?</p>', fix, body, flags=_re.S)
+SLIDES = [(t, sec, _kern_w(b)) for t, sec, b in SLIDES]
 N = len(SLIDES)
 html = assemble(SLIDES, "How Ameck Works", "Ameck House / Customer guide", "ameckhouse.in", f"Customer guide / {N} pages",
                 font_css + CSS, SPRITE, os.environ.get("THREE_SRC", THREE_CDN), whatsapp=True)
