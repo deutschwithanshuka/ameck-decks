@@ -735,7 +735,7 @@ tl = [
  ("","4","Mid-production check","Bulk compared with your approved sample"),
  ("","5","Pre-shipment check","Problems fixed at the factory, before shipping"),
  ("ship","6","Insured in transit","Cargo insured and tracked, every document cross-checked"),
- ("money","7","Landed and delivered","Customs in 2 to 3 working days. You pay the actual shipping cost, then we deliver."),
+ ("money","7","Landed and delivered","Customs in 2 to 3 working days. You pay the quoted shipping, then we deliver."),
 ]
 slide("dark", "How we protect you", f'''
 <div class="hd"><span class="eyebrow">How we protect you</span><h2>Your money and your goods are protected at every stage</h2></div>
@@ -1061,7 +1061,7 @@ slide("paper", "Grow with us", f"""
 
 # ---------------- 19 COMMITMENTS ----------------
 commit = [
- ("doc","Quote first, always","Scope, price, timeline and duties in writing before you pay. Shipping is estimated, then billed at actual cost after landing."),
+ ("doc","Quote first, always","Scope, price, timeline and shipping in writing before you pay. Shipping changes only slightly if the final size or weight differs."),
  ("clock","A fast start","Work begins within 4 hours of payment, because prices and freight windows change quickly."),
  ("eye","Tracking at every milestone","Updates at dispatch, port arrival, customs clearance and delivery."),
  ("lock","Secure payments","Through Cashfree Payments, an RBI-regulated gateway. We never see or store your card or bank details."),
@@ -1090,7 +1090,7 @@ faq = [
  ("Do I need an IEC?","No. We work under our own IEC and handle 100% of the paperwork. All you need is GST registration."),
  ("What is the smallest order?","Every import or export needs at least 25 units and 20 kg per shipment, and you can mix any products. Ready stock starts at 25 units, corporate orders at 50."),
  ("How do I know the bulk will match my sample?","You approve a sample first. We inspect during production and again before shipping, and fix problems at the factory."),
- ("What does landed cost mean?","Everything to get the product to your door: factory price, freight, insurance, customs duty, IGST and local delivery. Your quote shows it, with shipping as an estimate settled at actual cost after landing."),
+ ("What does landed cost mean?","Everything to get the product to your door: factory price, freight, insurance, customs duty, IGST and local delivery. Your quote shows it upfront. Shipping may change slightly only if the final size or weight of the shipment differs."),
  ("Can I order just one shipment?","Yes. There is no long-term commitment. Many customers start with one order and come back."),
  ("Do you only work with China?","No. We source from 35+ countries across Asia, the Middle East and Europe, and export Indian goods worldwide."),
  ("What can you not ship?","Hazardous materials. Everything else, from apparel to machinery and food products, is welcome."),
