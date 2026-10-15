@@ -8,30 +8,27 @@ FONTS = HERE.parent / "fonts"
 def b64(p):
     return base64.b64encode(p.read_bytes()).decode()
 
-arch = next(FONTS.glob("fontsource-variable-archivo-*/files")) / "archivo-latin-wdth-normal.woff2"
-plex = next(FONTS.glob("fontsource-ibm-plex-sans-*[0-9]/files"))
-mono = next(FONTS.glob("fontsource-ibm-plex-mono-*[0-9]/files"))
+bodoni = next(FONTS.glob("fontsource-variable-bodoni-moda-*/files"))
+fig = next(FONTS.glob("fontsource-figtree-*[0-9]/files"))
 
-font_css = f"""
-@font-face{{font-family:"Archivo";src:url(data:font/woff2;base64,{b64(arch)}) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}}
-""" + "".join(
-    f'@font-face{{font-family:"IBM Plex Sans";src:url(data:font/woff2;base64,{b64(plex / f"ibm-plex-sans-latin-{w}-normal.woff2")}) format("woff2");font-weight:{w};font-display:block}}\n'
-    for w in (400, 500, 600, 700)
+font_css = "".join(
+    f'@font-face{{font-family:"Bodoni Moda";src:url(data:font/woff2;base64,{b64(bodoni / f"bodoni-moda-latin-standard-{st}.woff2")}) format("woff2");font-weight:400 900;font-style:{st};font-display:block}}\n'
+    for st in ("normal", "italic")
 ) + "".join(
-    f'@font-face{{font-family:"IBM Plex Mono";src:url(data:font/woff2;base64,{b64(mono / f"ibm-plex-mono-latin-{w}-normal.woff2")}) format("woff2");font-weight:{w};font-display:block}}\n'
-    for w in (400, 500, 600)
+    f'@font-face{{font-family:"Figtree";src:url(data:font/woff2;base64,{b64(fig / f"figtree-latin-{w}-normal.woff2")}) format("woff2");font-weight:{w};font-display:block}}\n'
+    for w in (400, 500, 600, 700)
 )
 
 CSS = r"""
-/* Layout: a deck of 16:9 cargo-manifest slides; harbour sea and fog grounds alternate, marigold marks the one thing to see */
+/* Layout: a deck of 16:9 slides; deep emerald and Jaipur sandstone grounds alternate, rose marks the one thing to see */
 :root{
   --sea:#0E3640; --sea2:#17505C; --sea3:#22646F; --on-sea:#E8F0EE; --on-sea-mute:#9CB8BB; --sea-line:#2C6670;
   --fog:#EDF1EF; --paper:#FBFCFB; --ink:#132A30; --mute:#566C70; --line:#C9D5D3;
   --marigold:#E9A23B; --marigold-soft:#F7E1B8; --rust:#C4542A; --rust-soft:#F4D9CD; --mint:#9FD3C5; --mint-soft:#D7EEE7; --rust-tint:#F7E6DE; --sea-tint:#DCEAE7;
   --page-bg:#DDE5E3; --page-fg:#132A30; --page-mute:#566C70;
-  --f-display:"Archivo","Poppins",system-ui,sans-serif;
-  --f-body:"IBM Plex Sans","Inter",system-ui,sans-serif;
-  --f-mono:"IBM Plex Mono","DejaVu Sans Mono",ui-monospace,monospace;
+  --f-display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --f-body:"Figtree",system-ui,sans-serif;
+  --f-mono:"Figtree",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--page-bg:#081A1F;--page-fg:#E3ECEA;--page-mute:#93A9AC;color-scheme:dark}}
 :root[data-theme="dark"]{--page-bg:#081A1F;--page-fg:#E3ECEA;--page-mute:#93A9AC;color-scheme:dark}
@@ -40,7 +37,7 @@ CSS = r"""
 body{background:var(--page-bg);color:var(--page-fg);font-family:var(--f-body);-webkit-print-color-adjust:exact;print-color-adjust:exact;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
 .page-head{max-width:1280px;margin:0 auto 20px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 24px}
-.page-head b{font-family:var(--f-display);font-stretch:118%;font-weight:750;letter-spacing:.02em;font-size:15px}
+.page-head b{font-family:var(--f-display);font-weight:600;letter-spacing:.02em;font-size:15px}
 .page-head span{font-family:var(--f-mono);font-size:12px;color:var(--page-mute);letter-spacing:.06em;text-transform:uppercase}
 .deck{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
 
@@ -52,17 +49,20 @@ body{background:var(--page-bg);color:var(--page-fg);font-family:var(--f-body);-w
   --xs:clamp(10px,.92cqw,12px);--s:clamp(11.5px,1.13cqw,14.5px);--b:clamp(12.5px,1.32cqw,17px);--l:clamp(14px,1.62cqw,20.5px);
   --h2:clamp(21px,3.05cqw,39px);--h1:clamp(32px,6.1cqw,78px);--stat:clamp(30px,5.2cqw,66px);--g:clamp(10px,1.6cqw,20px);
   font-size:var(--b);line-height:1.42}
-.chrome{display:flex;justify-content:space-between;gap:12px;font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.09em;text-transform:uppercase;color:var(--mute)}
+.chrome{display:flex;justify-content:space-between;gap:12px;font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
 .dark .chrome{color:var(--on-sea-mute)}
 .chrome .mark{display:flex;align-items:center;gap:.6em}
-.chrome .mark i{width:.9em;height:.9em;background:var(--marigold);display:inline-block;border-radius:2px}
+.chrome .mark i{width:.55em;height:.55em;background:var(--rust);display:inline-block;border-radius:50%}
+.dark .chrome .mark i{background:var(--marigold)}
 .body{flex:1;min-height:0;display:flex;flex-direction:column;gap:var(--g)}
-.eyebrow{font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.12em;text-transform:uppercase;color:var(--rust);font-weight:500}
+.eyebrow{font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.18em;text-transform:uppercase;color:var(--rust);font-weight:600}
 .dark .eyebrow{color:var(--marigold)}
 h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance}
-h1{font-size:var(--h1);font-weight:800;font-stretch:118%;line-height:.98;letter-spacing:-.01em}
-h2{font-size:var(--h2);font-weight:720;font-stretch:112%;line-height:1.06;letter-spacing:-.005em;max-width:30ch}
-h3{font-size:var(--l);font-weight:680;font-stretch:106%;line-height:1.15}
+h1{font-size:var(--h1);font-weight:500;line-height:1;letter-spacing:-.015em}
+h1 em,h2 em{font-style:italic;font-weight:500;color:var(--rust)}
+.dark h1 em,.dark h2 em{color:var(--marigold)}
+h2{font-size:var(--h2);font-weight:500;line-height:1.08;letter-spacing:-.01em;max-width:30ch}
+h3{font-size:var(--l);font-weight:600;line-height:1.15}
 p{margin:0}
 .lead{font-size:var(--l);line-height:1.4;max-width:46ch}
 .mute{color:var(--mute)} .dark .mute{color:var(--on-sea-mute)}
@@ -78,11 +78,11 @@ p{margin:0}
 .icb{width:2.6em;height:2.6em;border-radius:50%;display:grid;place-items:center;background:var(--mint-soft);color:var(--sea);flex:none}
 .icb .ic{width:1.35em;height:1.35em}
 .dark .icb{background:var(--sea2);color:var(--marigold)}
-.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:1.4cqw 1.5cqw;display:flex;flex-direction:column;gap:.7cqw;min-width:0}
+.card{background:var(--paper);border:1px solid transparent;border-radius:14px;box-shadow:0 1px 2px rgba(10,30,35,.05);padding:1.4cqw 1.5cqw;display:flex;flex-direction:column;gap:.7cqw;min-width:0}
 .paper .card{background:var(--fog)}
 .dark .card{background:var(--sea2);border-color:var(--sea-line)}
-.chip{display:inline-flex;align-items:center;gap:.4em;font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.05em;text-transform:uppercase;
-  padding:.35em .7em;border-radius:4px;background:var(--mint-soft);color:var(--sea);font-weight:500;white-space:nowrap}
+.chip{display:inline-flex;align-items:center;gap:.4em;font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.1em;text-transform:uppercase;
+  padding:.4em .85em;border-radius:999px;background:var(--mint-soft);color:var(--sea);font-weight:500;white-space:nowrap}
 .chip.gold{background:var(--marigold-soft);color:#6A4510}
 .chip.rust{background:var(--rust-soft);color:#7A2F13}
 .dark .chip{background:var(--sea3);color:var(--on-sea)}
@@ -102,7 +102,7 @@ svg.chart{width:100%;height:auto;display:block}
 .route .ic{width:1.1em;height:1.1em;color:var(--on-sea-mute)}
 /* stats */
 .stat{border-top:2px solid var(--marigold);padding-top:1.1cqw;display:flex;flex-direction:column;gap:.4cqw}
-.stat b{font-family:var(--f-display);font-size:var(--stat);font-weight:780;font-stretch:115%;line-height:1;letter-spacing:-.01em}
+.stat b{font-family:var(--f-display);font-size:var(--stat);font-weight:600;line-height:1;letter-spacing:-.01em}
 .stat b em{font-style:normal;color:var(--marigold)}
 /* steps track */
 .track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--g);position:relative}
@@ -144,7 +144,7 @@ table.t.vs td{padding-top:.95cqw;padding-bottom:.95cqw}
 .us ol{font-size:var(--b);gap:1.2cqw}
 .alone ol{font-size:var(--b);gap:.95cqw}
 .bigt{white-space:nowrap}
-.bigt{font-family:var(--f-display);font-weight:780;font-stretch:115%;font-size:clamp(24px,3.4cqw,44px);line-height:1}
+.bigt{font-family:var(--f-display);font-weight:600;font-size:clamp(24px,3.4cqw,44px);line-height:1}
 .phone{background:var(--ink);border-radius:22px;padding:1cqw;max-width:30cqw;width:100%;margin:0 auto;box-shadow:0 10px 30px -10px rgba(0,0,0,.4)}
 .phone .scr{background:#E9E4DB;border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
 .phone .top{background:#2B4A4F;color:#E8F0EE;padding:.8cqw 1.1cqw;display:flex;align-items:center;gap:.7cqw;font-size:var(--s)}
@@ -158,8 +158,7 @@ table.t.vs td{padding-top:.95cqw;padding-bottom:.95cqw}
 .seen{align-self:center;font-size:var(--xs);color:#6B7577;font-style:italic}
 .pill4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.4cqw}
 .pillar{border-top:3px solid var(--marigold);padding-top:1cqw;display:flex;flex-direction:column;gap:.5cqw}
-.mission{font-family:var(--f-display);font-weight:720;font-stretch:110%;font-size:clamp(22px,3.5cqw,45px);line-height:1.08;max-width:24ch;text-wrap:balance}
-.slide.dark{background-image:radial-gradient(rgba(232,240,238,.05) 1px,transparent 1.3px);background-size:22px 22px}
+.mission{font-family:var(--f-display);font-weight:600;font-size:clamp(22px,3.5cqw,45px);line-height:1.08;max-width:24ch;text-wrap:balance}
 .mi{display:flex;flex-direction:column;gap:.7cqw}
 .mi .ex{margin-top:auto;border-top:1px dashed var(--line);padding-top:.7cqw;font-size:var(--s)}
 .mi .ex b{font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.08em;text-transform:uppercase;color:var(--rust);display:block;margin-bottom:.2cqw}
@@ -168,7 +167,7 @@ table.t.vs td{padding-top:.95cqw;padding-bottom:.95cqw}
 .ledger{display:flex;flex-wrap:wrap;gap:.5cqw;align-items:center;border-top:1.5px solid var(--ink);padding-top:1cqw}
 .stairs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.2cqw;align-items:end}
 .stair{display:flex;flex-direction:column;gap:.7cqw}
-.stair .blk{border-radius:8px 8px 0 0;background:var(--sea2);display:flex;align-items:flex-start;padding:1cqw 1.2cqw;color:var(--marigold);font-family:var(--f-display);font-weight:780;font-stretch:115%;font-size:var(--h2)}
+.stair .blk{border-radius:8px 8px 0 0;background:var(--sea2);display:flex;align-items:flex-start;padding:1cqw 1.2cqw;color:var(--marigold);font-family:var(--f-display);font-weight:600;font-size:var(--h2)}
 /* timeline (protection) */
 .tl{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:1.2cqw;position:relative}
 .tl::before{content:"";position:absolute;left:3%;right:3%;top:1.5cqw;height:2px;background:var(--sea-line)}
@@ -176,32 +175,32 @@ table.t.vs td{padding-top:.95cqw;padding-bottom:.95cqw}
 .tl .dot{width:3cqw;height:3cqw;min-width:28px;min-height:28px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-mono);font-weight:600;font-size:var(--s);background:var(--mint);color:var(--ink);box-shadow:0 0 0 .5cqw var(--sea)}
 .tl .money .dot{background:var(--marigold)}
 .tl .ship .dot{background:var(--on-sea)}
-.tl h3{font-size:var(--s);font-stretch:104%}
+.tl h3{font-size:var(--s);}
 .tl p{font-size:var(--s);color:var(--on-sea-mute)}
 /* equation */
 .eq{display:flex;align-items:stretch;gap:1cqw}
 .eq .blk{flex:1;border-radius:10px;padding:1.4cqw;display:flex;flex-direction:column;gap:.6cqw;background:var(--paper);border:1px solid var(--line);min-width:0}
-.eq .op{display:grid;place-items:center;font-family:var(--f-display);font-size:var(--h2);font-weight:700;color:var(--mute);flex:none}
+.eq .op{display:grid;place-items:center;font-family:var(--f-display);font-size:var(--h2);font-weight:600;color:var(--mute);flex:none}
 .eq .total{background:var(--sea);color:var(--on-sea);border-color:var(--sea)}
 .eq .total .mute{color:var(--on-sea-mute)}
 .strike{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--rust)}
 /* stories */
-.story b.m{font-family:var(--f-display);font-size:clamp(22px,3.1cqw,40px);font-weight:780;font-stretch:115%;line-height:1;color:var(--marigold)}
+.story b.m{font-family:var(--f-display);font-size:clamp(22px,3.1cqw,40px);font-weight:600;line-height:1;color:var(--marigold)}
 .story .where{font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.08em;text-transform:uppercase;color:var(--on-sea-mute)}
 .story p{font-size:var(--s)}
 .s-span2{grid-column:span 2} .s-span3{grid-column:span 3}
 /* faq */
 .faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.3cqw 3cqw}
 .faq div{border-top:1px solid var(--line);padding-top:.8cqw;display:flex;flex-direction:column;gap:.3cqw;min-width:0}
-.faq b{font-family:var(--f-display);font-stretch:104%;font-weight:650;font-size:var(--b)}
+.faq b{font-family:var(--f-display);font-weight:600;font-size:var(--b)}
 .faq p{font-size:var(--s);color:var(--mute)}
 /* contact */
 .contact{display:grid;grid-template-columns:auto 1fr;gap:.9cqw 1.6cqw;align-items:baseline}
 .contact dt{font-family:var(--f-mono);font-size:var(--xs);letter-spacing:.1em;text-transform:uppercase;color:var(--on-sea-mute)}
 .contact dd{margin:0;font-size:var(--l);font-weight:500;user-select:all}
 .contact dd.small{font-size:var(--s);font-weight:400;user-select:text}
-.num{font-family:var(--f-display);font-weight:780;font-stretch:115%;color:var(--marigold);font-size:var(--h2);line-height:1}
-.closer{font-family:var(--f-display);font-weight:780;font-stretch:120%;font-size:clamp(20px,2.6cqw,34px);line-height:1.05}
+.num{font-family:var(--f-display);font-weight:600;color:var(--marigold);font-size:var(--h2);line-height:1}
+.closer{font-family:var(--f-display);font-weight:600;font-size:clamp(20px,2.6cqw,34px);line-height:1.05}
 a{color:inherit;text-decoration-color:var(--marigold);text-underline-offset:.18em}
 
 @media (max-width:820px){
@@ -286,7 +285,7 @@ def container(x, y, fill, label=None, code=None, dark_text=False):
     s += '<rect x="134" y="30" width="6" height="14" rx="1" fill="rgba(0,0,0,.25)"/>'
     s += '<rect width="164" height="72" rx="3" fill="none" stroke="rgba(0,0,0,.22)" stroke-width="2"/>'
     if label:
-        s += f'<text x="62" y="45" text-anchor="middle" font-family="Archivo" font-weight="800" font-stretch="125%" font-size="22" letter-spacing="3" fill="{tcol}">{label}</text>'
+        s += f'<text x="62" y="45" text-anchor="middle" font-family="Bodoni Moda" font-weight="600" font-size="22" letter-spacing="3" fill="{tcol}">{label}</text>'
     if code:
         s += f'<text class="mono" x="10" y="19" font-size="9" letter-spacing="1" fill="{tcol}" opacity=".8">{code}</text>'
     return s + '</g>'
@@ -318,7 +317,7 @@ slide("dark cover", "Customer guide", f'''
 <div class="cover-grid">
   <div class="hd" style="gap:2.2cqw">
     <span class="eyebrow">Ameck Business House / Customer guide 2026</span>
-    <h1>How Ameck works for you</h1>
+    <h1>How Ameck works <em>for you</em></h1>
     <p class="lead" style="color:var(--on-sea)">We find the product you want anywhere in the world, buy it at the best price, check its quality and deliver it to your door.</p>
     <div class="route">Find {ic("arrow")} Check {ic("arrow")} Ship {ic("arrow")} Deliver</div>
     <p class="small mute">Global trade and product sourcing, run from Jaipur and Gurgaon, India.</p>
@@ -533,7 +532,7 @@ svcs = [
  ("store","Ready Stock Store","Buyers ready to purchase products we have already imported","From 25 units"),
 ]
 slide("paper", "Our services", f'''
-<div class="hd"><span class="eyebrow">Seven ways we help</span><h2>Pick only what you need. Every service works on its own.</h2><p class="small mute">Tap any card to flip it for the key terms.</p></div>
+<div class="hd"><span class="eyebrow">Seven ways we help</span><h2 style="max-width:none">Pick only what you need. Every service works on its own.</h2><p class="small mute">Tap any card to flip it for the key terms.</p></div>
 <div class="grid g4 fill m-swipe" style="grid-auto-rows:1fr">
  {"".join(svc_flip(i,t,f,k) for i,t,f,k in svcs)}
  <div class="card svc cta"><span class="icb">{ic("chat")}</span><h3>Not sure which fits?</h3><p class="for">Tell us what you are looking for and we will point you to the right service.</p><span class="mono small" style="color:var(--marigold)">WhatsApp +91 83021 92742</span></div>
@@ -607,11 +606,11 @@ dir_svg = '''<svg class="chart" viewBox="0 0 480 400" role="img" aria-label="Fou
 <path d="M298 186 Q 374 182 394 136" stroke="#E9A23B" stroke-width="3" fill="none" marker-end="url(#ag)"/>
 <path d="M290 252 Q 330 320 362 322" stroke="#E9A23B" stroke-width="3" fill="none" marker-end="url(#ag)"/>
 <circle cx="236" cy="214" r="64" fill="#FBFCFB" stroke="#E9A23B" stroke-width="5"/>
-<text x="236" y="210" text-anchor="middle" font-family="Archivo" font-weight="800" font-stretch="125%" font-size="26" fill="#132A30" letter-spacing="2">INDIA</text>
+<text x="236" y="210" text-anchor="middle" font-family="Bodoni Moda" font-weight="600" font-size="26" fill="#132A30" letter-spacing="2">INDIA</text>
 <text x="236" y="234" text-anchor="middle" font-size="12" fill="#566C70" class="mono">JAIPUR OPS</text>
-<circle cx="70" cy="92" r="44" fill="#22646F"/><text x="70" y="98" text-anchor="middle" font-family="Archivo" font-weight="760" font-stretch="118%" font-size="16" fill="#E8F0EE">CHINA</text>
-<circle cx="410" cy="82" r="48" fill="#22646F"/><text x="410" y="78" text-anchor="middle" font-family="Archivo" font-weight="760" font-stretch="118%" font-size="15" fill="#E8F0EE">WORLD</text><text x="410" y="96" text-anchor="middle" font-size="12" fill="#9CB8BB">markets</text>
-<circle cx="412" cy="330" r="48" fill="#22646F"/><text x="412" y="326" text-anchor="middle" font-family="Archivo" font-weight="760" font-stretch="118%" font-size="15" fill="#E8F0EE">GLOBAL</text><text x="412" y="344" text-anchor="middle" font-size="12" fill="#9CB8BB">buyers</text>
+<circle cx="70" cy="92" r="44" fill="#22646F"/><text x="70" y="98" text-anchor="middle" font-family="Bodoni Moda" font-weight="600" font-size="16" fill="#E8F0EE">CHINA</text>
+<circle cx="410" cy="82" r="48" fill="#22646F"/><text x="410" y="78" text-anchor="middle" font-family="Bodoni Moda" font-weight="600" font-size="15" fill="#E8F0EE">WORLD</text><text x="410" y="96" text-anchor="middle" font-size="12" fill="#9CB8BB">markets</text>
+<circle cx="412" cy="330" r="48" fill="#22646F"/><text x="412" y="326" text-anchor="middle" font-family="Bodoni Moda" font-weight="600" font-size="15" fill="#E8F0EE">GLOBAL</text><text x="412" y="344" text-anchor="middle" font-size="12" fill="#9CB8BB">buyers</text>
 <g font-family="IBM Plex Mono" font-weight="600" font-size="13" text-anchor="middle">
  <circle cx="318" cy="112" r="12" fill="#9FD3C5"/><text x="318" y="117" fill="#132A30">1</text>
  <circle cx="146" cy="134" r="12" fill="#9FD3C5"/><text x="146" y="139" fill="#132A30">2</text>
@@ -1033,11 +1032,11 @@ stairs = [
 _SD=190
 _st='<div class="ground"></div>'
 for k,(n,t,d,h) in enumerate(stairs):
-    _st+=box(_CX[k]-95,_SD//2-60,190,120,[40,78,116,154][k],GOLD if k==3 else TEAL_L if k==2 else TEAL,inner=bb(f'<div class="node3d {"gold" if k==3 else ""}" style="font-family:var(--f-display);font-weight:800;font-size:24px">{n}</div>',lift=14),attrs=f'data-k="{k+1}"')
+    _st+=box(_CX[k]-95,_SD//2-60,190,120,[40,78,116,154][k],GOLD if k==3 else TEAL_L if k==2 else TEAL,inner=bb(f'<div class="node3d {"gold" if k==3 else ""}" style="font-family:var(--f-display);font-weight:600;font-size:24px">{n}</div>',lift=14),attrs=f'data-k="{k+1}"')
 stair_scene=scene(1168,300,_st,1168,_SD,0,108,58,0,persp=1700,label="A rising 3D staircase of four steps: first order, repeat orders, recurring supply, your own brand")
 slide("paper", "Grow with us", f"""
 <div class="hd"><span class="eyebrow">Grow with us</span><h2 style="max-width:none">From your first import to a full supply chain</h2></div>
-<div class="d-only">{stair_scene}</div><div class="m-only">{iso_row([f'<div class="node3d sm {chr(103)+chr(111)+chr(108)+chr(100) if k==3 else chr(32)}" style="font-family:var(--f-display);font-weight:800;font-size:18px">{n}</div>' for k,(n,t,d,h) in enumerate(stairs)],[26,52,78,104],[TEAL,TEAL,TEAL_L,GOLD],'A rising 3D staircase of four steps')}</div>
+<div class="d-only">{stair_scene}</div><div class="m-only">{iso_row([f'<div class="node3d sm {chr(103)+chr(111)+chr(108)+chr(100) if k==3 else chr(32)}" style="font-family:var(--f-display);font-weight:600;font-size:18px">{n}</div>' for k,(n,t,d,h) in enumerate(stairs)],[26,52,78,104],[TEAL,TEAL,TEAL_L,GOLD],'A rising 3D staircase of four steps')}</div>
 <div class="grid g4 m-swipe" style="gap:var(--g)">
  {"".join(f'<div class="hd stepcol" data-k="{n}" style="gap:.3cqw"><h3>{t}</h3><p class="small mute">{d}</p></div>' for n,t,d,h in stairs)}
 </div>
