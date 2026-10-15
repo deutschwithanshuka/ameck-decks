@@ -376,20 +376,32 @@ slide("", "The problem", f"""
   </div>
 </div>""")
 
-# ---------------- OUR MOTIVE ----------------
+# ---------------- WHAT WE STAND FOR (used on Who we are) ----------------
 pillars = [
  ("Formal","Our own IEC, GST-compliant billing and 100% of the paperwork on every order."),
  ("Transparent","Factory price plus actual freight. Zero commission, no hidden margins."),
  ("Accessible","Start from 25 units and 20 kg, any mix. We pool orders to reach factory prices."),
  ("Accountable","Verified suppliers, two inspections, one contact, and a refund if we cannot deliver."),
 ]
-slide("dark", "Our motive", f"""
-<div class="hd" style="gap:1.6cqw"><span class="eyebrow">Our motive</span>
-<p class="mission">We are taking India's import trade out of WhatsApp chats and making it formal, transparent and accountable.</p>
-<p class="lead" style="color:var(--on-sea-mute);max-width:62ch">Any Indian business, however small, should be able to buy from the world's factories at factory prices, with full paperwork, verified suppliers and one partner who answers for the result.</p></div>
-<div class="pill4 fill m-swipe" style="align-content:end">
- {"".join(f'<div class="pillar"><h3 style="color:var(--marigold)">{t}</h3><p class="small" style="color:var(--on-sea)">{d}</p></div>' for t,d in pillars)}
-</div>""")
+# ---------------- 2 WHO WE ARE ----------------
+PILLAR_IC = {"Formal":"doc","Transparent":"eye","Accessible":"users","Accountable":"shield"}
+slide("", "Who we are", f'''
+<div class="grid g2 fill split" style="grid-template-columns:1fr 1fr;gap:4cqw;align-items:start">
+  <div class="hd" style="gap:1.6cqw">
+    <span class="eyebrow">Who we are</span>
+    <h2>A global trade partner for Indian businesses of every size</h2>
+    <p class="lead">Most Indian businesses buy from the same local wholesalers. Same products, same prices, no way to stand out.</p>
+    <p>We built Ameck to take India's import trade out of WhatsApp chats and make it formal, transparent and accountable. We give small shops, growing brands and established companies the global factories and factory prices that large corporations take for granted.</p>
+    <div class="grid g2" style="margin-top:1cqw">
+      <div class="card">{icb("building")}<h3>Gurgaon</h3><p class="small mute">Headquarters. Corporate and strategic leadership.</p></div>
+      <div class="card">{icb("pin")}<h3>Jaipur</h3><p class="small mute">Operations. Sourcing, logistics, compliance and client work. Visits by appointment.</p></div>
+    </div>
+  </div>
+  <div class="hd" style="gap:1.4cqw">
+    <span class="eyebrow">What we stand for</span>
+    <div class="hd m-swipe" style="gap:1.4cqw">{"".join(f'<div class="row" style="flex-wrap:nowrap;align-items:flex-start;gap:1.4cqw;padding-bottom:1.3cqw;border-bottom:1px solid var(--line)">{icb(PILLAR_IC[t])}<div class="hd" style="gap:.3cqw"><h3>{t}</h3><p class="mute">{d}</p></div></div>' for t,d in pillars)}</div>
+  </div>
+</div>''')
 
 # ---------------- WHY AMECK ----------------
 why = [
@@ -408,31 +420,6 @@ slide("paper", "Why Ameck", f"""
 <tbody>{"".join(f'<tr><td>{a}</td><td class="diy" data-l="WhatsApp trader"><span class="cell"><span class="x">{ic("x")}</span><span>{d}</span></span></td><td class="ame" data-l="Ameck Business House"><span class="cell"><span class="ok">{ic("check")}</span>{w}</span></td></tr>' for a,d,w in why)}</tbody>
 </table></div>
 <div class="callout" style="background:var(--sea);color:var(--on-sea)"><span style="color:var(--marigold)">{ic("shield")}</span><span><b>We are not another middleman.</b> We are the formal, accountable way for Indian businesses to trade with the world.</span></div>""")
-# ---------------- 2 WHO WE ARE ----------------
-promise = [
- ("shield","Full ownership, not just advice","We carry out every step ourselves, from the first conversation to final delivery."),
- ("globe","Global reach, Indian understanding","We know the factories abroad and the market at home."),
- ("users","Built for every size","First-time entrepreneur or established business, we scale to fit you."),
- ("chat","One accountable contact","You never chase suppliers, forwarders or customs. We do, and we keep you updated."),
-]
-slide("", "Who we are", f'''
-<div class="grid g2 fill split" style="grid-template-columns:1fr 1fr;gap:4cqw;align-items:start">
-  <div class="hd" style="gap:1.6cqw">
-    <span class="eyebrow">Who we are</span>
-    <h2>A global trade partner for Indian businesses of every size</h2>
-    <p class="lead">Most Indian businesses buy from the same local wholesalers. Same products, same prices, no way to stand out.</p>
-    <p>We built Ameck to change that. We give small shops, growing brands and established companies the global factories and factory prices that large corporations take for granted.</p>
-    <div class="grid g2" style="margin-top:1cqw">
-      <div class="card">{icb("building")}<h3>Gurgaon</h3><p class="small mute">Headquarters. Corporate and strategic leadership.</p></div>
-      <div class="card">{icb("pin")}<h3>Jaipur</h3><p class="small mute">Operations. Sourcing, logistics, compliance and client work. Visits by appointment.</p></div>
-    </div>
-  </div>
-  <div class="hd" style="gap:1.4cqw">
-    <span class="eyebrow">Our promise to you</span>
-    <div class="hd m-swipe" style="gap:1.4cqw">{"".join(f'<div class="row" style="flex-wrap:nowrap;align-items:flex-start;gap:1.4cqw;padding-bottom:1.3cqw;border-bottom:1px solid var(--line)">{icb(i)}<div class="hd" style="gap:.3cqw"><h3>{t}</h3><p class="mute">{d}</p></div></div>' for i,t,d in promise)}</div>
-  </div>
-</div>''')
-
 # ---------------- 3 NETWORK MAP ----------------
 import json as _json
 MAP = _json.loads((HERE.parent / "map" / "map.json").read_text())
@@ -519,9 +506,9 @@ slide("paper", "Market intelligence", f"""
 
 # ---------------- 5 SEVEN SERVICES ----------------
 SVC_BACK = {
- "Shipping and Delivery": (["Sea or air freight, customs cleared","From 25 kg, no upper limit","Full cost breakdown in 4 hours"],"Shipping and Delivery"),
+ "Shipping and Delivery": (["Sea or air freight, customs cleared","From 25 kg, no upper limit","Full cost breakdown in 4 hours"],"Shipping and export"),
  "Import from China": (["25 units and 20 kg per shipment, any mix","Factory price, zero commission","Sample first, then two inspections"],"Import from China"),
- "Export and Global Trade": (["Documentation, freight and compliance","Indian goods to buyers worldwide","Four trade directions covered"],"Export and Global Trade"),
+ "Export and Global Trade": (["Documentation, freight and compliance","Indian goods to buyers worldwide","Four trade directions covered"],"Shipping and export"),
  "Brand Building": (["From an idea to a product ready to sell","Your logo, colours and packaging","Sourcing plan within 48 hours"],"Brand Building and Global Sourcing"),
  "Corporate Solutions": (["Gifts, kits, hampers and supplies","From 50 units, fully branded","Delivered anywhere in India"],"Corporate Solutions"),
  "Global Sourcing": (["35+ countries searched for you","Suppliers vetted, prices negotiated","Inspected before it ships"],"Brand Building and Global Sourcing"),
@@ -587,30 +574,7 @@ slide("", "Import from China", f'''
   <div class="card" style="padding:1.6cqw 2cqw"><div class="m-hide">{mode_chart}</div>{mlist('Shipping mode, door to door', [('Air','7 to 12 working days'),('Sea','25 to 45 working days')])}<p class="small mute">Insurance, tracking and customs handling are included with both modes. Samples travel by express courier.</p></div>
 </div>''')
 
-# ---------------- 7 SHIPPING ----------------
-lanes = [
- ("anchor","World to India","Imports into India",["Freight booking","Customs clearance","Duty management","Door delivery"]),
- ("plane","India to World","Exports from India",["Export documentation","Global freight","Compliance support","International delivery"]),
- ("truck","Warehouse to you","Last mile",["Pan-India delivery","Free self-pickup in Jaipur","Free self-pickup in Delhi"]),
-]
-goods = ["Apparel","Electronics","Home goods","Food products","Machinery","Raw materials","Furniture","Textiles"]
-slide("paper", "Shipping and Delivery", f'''
-<div class="hd"><span class="eyebrow">Service / Shipping and Delivery</span><h2>Already have the goods? We move them, cleared and delivered.</h2></div>
-<div class="grid g3 m-swipe">
- {"".join(f'<div class="card"><div class="row" style="align-items:center;flex-wrap:nowrap;gap:1cqw">{icb(i)}<div><h3>{t}</h3><span class="small mute">{s}</span></div></div><ul class="ticks small">{"".join(f"<li>{x}</li>" for x in items)}</ul></div>' for i,t,s,items in lanes)}
-</div>
-<div class="grid g4 m-grid2" style="border-top:1.5px solid var(--ink);padding-top:1.2cqw">
-  <div><b class="num" style="font-size:var(--h2)">25 kg</b><p class="small mute">Minimum per shipment</p></div>
-  <div><b class="num" style="font-size:var(--h2)">No cap</b><p class="small mute">No upper weight limit</p></div>
-  <div><b class="num" style="font-size:var(--h2)">4 h</b><p class="small mute">Full cost breakdown in 4 hours</p></div>
-  <div><b class="num" style="font-size:var(--h2)">35+</b><p class="small mute">Countries served</p></div>
-</div>
-<div class="row" style="align-items:center;gap:.6cqw">
-  <span class="mono small mute" style="margin-right:.6cqw">WE SHIP</span>{"".join(f'<span class="chip">{g}</span>' for g in goods)}<span class="chip">And more</span>
-  <span class="chip rust">{ic("x")} Hazardous materials only</span>
-</div>''')
-
-# ---------------- 8 EXPORT / FOUR DIRECTIONS ----------------
+# ---------------- 7 SHIPPING AND EXPORT / FOUR DIRECTIONS ----------------
 dir_svg = '''<svg class="chart" viewBox="0 0 480 400" role="img" aria-label="Four trade directions around India: world to India, China to India, India to world, Indian goods to global buyers">
 <defs>
  <marker id="am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9FD3C5"/></marker>
@@ -626,7 +590,7 @@ dir_svg = '''<svg class="chart" viewBox="0 0 480 400" role="img" aria-label="Fou
 <circle cx="70" cy="92" r="44" fill="#22646F"/><text x="70" y="98" text-anchor="middle" font-family="Bodoni Moda" font-weight="600" font-size="16" fill="#E8F0EE">CHINA</text>
 <circle cx="410" cy="82" r="48" fill="#22646F"/><text x="410" y="78" text-anchor="middle" font-family="Bodoni Moda" font-weight="600" font-size="15" fill="#E8F0EE">WORLD</text><text x="410" y="96" text-anchor="middle" font-size="12" fill="#9CB8BB">markets</text>
 <circle cx="412" cy="330" r="48" fill="#22646F"/><text x="412" y="326" text-anchor="middle" font-family="Bodoni Moda" font-weight="600" font-size="15" fill="#E8F0EE">GLOBAL</text><text x="412" y="344" text-anchor="middle" font-size="12" fill="#9CB8BB">buyers</text>
-<g font-family="IBM Plex Mono" font-weight="600" font-size="13" text-anchor="middle">
+<g font-family="Figtree" font-weight="600" font-size="13" text-anchor="middle">
  <circle cx="318" cy="112" r="12" fill="#9FD3C5"/><text x="318" y="117" fill="#132A30">1</text>
  <circle cx="146" cy="134" r="12" fill="#9FD3C5"/><text x="146" y="139" fill="#132A30">2</text>
  <circle cx="366" cy="178" r="12" fill="#E9A23B"/><text x="366" y="183" fill="#132A30">3</text>
@@ -640,13 +604,17 @@ dirs = [
  ("3","India to World","Indian-made goods taken to global buyers. We handle documentation, freight and compliance.","gold"),
  ("4","Indian goods for global buyers","International buyers source authentic Indian textiles, handicrafts, spices and more, for B2B and retail.","gold"),
 ]
-slide("dark", "Export and Global Trade", f'''
-<div class="hd"><span class="eyebrow">Service / Export and Global Trade</span><h2>Four trade directions. One partner.</h2></div>
+slide("dark", "Shipping and export", f'''
+<div class="hd"><span class="eyebrow">Service / Shipping, import and export</span><h2 style="max-width:none">Four trade directions. One partner, door to door.</h2></div>
 <div class="grid fill split" style="grid-template-columns:.95fr 1.05fr;gap:3.5cqw;align-items:center">
   <div>{dir_svg}</div>
-  <div class="hd" style="gap:1.3cqw">
-   <div class="hd m-swipe" style="gap:1.3cqw">{"".join(f'<div class="row" style="flex-wrap:nowrap;gap:1.2cqw;align-items:flex-start;padding-bottom:1.1cqw;border-bottom:1px solid var(--sea-line)"><span class="mono" style="flex:none;width:2em;height:2em;border-radius:50%;display:grid;place-items:center;font-weight:600;background:{"var(--mint)" if c=="mint" else "var(--marigold)"};color:var(--ink)">{n}</span><div class="hd" style="gap:.3cqw"><h3>{t}</h3><p class="small mute">{d}</p></div></div>' for n,t,d,c in dirs)}</div>
-   <div class="callout" style="gap:1cqw"><b class="num" style="font-size:var(--h2);white-space:nowrap">25 units + 20 kg</b><span class="small">Minimum for every import or export shipment. Both must be met, and you can mix any products.</span></div>
+  <div class="hd" style="gap:1.1cqw">
+   <div class="hd m-swipe" style="gap:.9cqw">{"".join(f'<div class="row" style="flex-wrap:nowrap;gap:1.2cqw;align-items:flex-start;padding-bottom:.8cqw;border-bottom:1px solid var(--sea-line)"><span class="mono" style="flex:none;width:2em;height:2em;border-radius:50%;display:grid;place-items:center;font-weight:600;background:{"var(--mint)" if c=="mint" else "var(--marigold)"};color:var(--ink)">{n}</span><div class="hd" style="gap:.3cqw"><h3>{t}</h3><p class="small mute">{d}</p></div></div>' for n,t,d,c in dirs)}</div>
+   <div class="grid g2" style="gap:1cqw">
+    <div class="callout" style="flex-direction:column;align-items:flex-start;gap:.3cqw"><b class="num" style="font-size:clamp(18px,2.2cqw,28px);white-space:nowrap">25 units + 20 kg</b><span class="small">Minimum when we source and ship for you. Mix any products.</span></div>
+    <div class="callout" style="flex-direction:column;align-items:flex-start;gap:.3cqw"><b class="num" style="font-size:clamp(18px,2.2cqw,28px);white-space:nowrap">From 25 kg</b><span class="small">Already have the goods? Shipping only, no upper limit, full cost in 4 hours.</span></div>
+   </div>
+   <p class="small mute">Pan-India delivery, or free pickup in Jaipur and Delhi. We ship almost everything except hazardous materials.</p>
   </div>
 </div>''')
 
@@ -748,25 +716,6 @@ slide("dark", "How we protect you", f'''
   <div class="row small mute" style="gap:2cqw"><span class="row" style="gap:.4em;align-items:center"><i style="width:.8em;height:.8em;border-radius:50%;background:var(--marigold);display:inline-block"></i>Payment</span><span class="row" style="gap:.4em;align-items:center"><i style="width:.8em;height:.8em;border-radius:50%;background:var(--mint);display:inline-block"></i>Quality check</span><span class="row" style="gap:.4em;align-items:center"><i style="width:.8em;height:.8em;border-radius:50%;background:var(--on-sea);display:inline-block"></i>Shipping</span></div></div>
 </div>''')
 
-# ---------------- 13 RISKS TABLE ----------------
-risks = [
- ("users","Fake or unreliable supplier","Due diligence before any deal: registration, export history, capacity and banking details"),
- ("rupee","Paying for goods that never come","You pay Ameck, not an unknown supplier. Full refund if we cannot deliver for a reason within our control"),
- ("eye","Bulk order not matching the sample","Sample approval, then mid-production and pre-shipment inspections against it"),
- ("doc","Customs hold over paperwork","Invoice, packing list, Bill of Entry and certificate of origin cross-checked before filing"),
- ("stamp","Wrong duty or classification","Correct HSN code for every product, with duty and IGST worked out upfront"),
- ("shield","Damage or loss in transit","Cargo insurance and tracking on every shipment"),
- ("layers","Missing product licences","FSSAI for food, BIS for electronics, CDSCO for cosmetics and medical products"),
- ("clock","Missed delivery dates","One accountable contact who owns your date and updates you first"),
-]
-slide("", "How we protect you", f'''
-<div class="hd"><span class="eyebrow">How we protect you</span><h2>Eight common import risks, and how we prevent each one</h2></div>
-<div class="tablewrap fill"><table class="t mcards">
-<thead><tr><th style="width:38%">The risk</th><th>How we prevent it</th></tr></thead>
-<tbody>{"".join(f'<tr><td><span class="cell"><span style="color:var(--rust)">{ic(i)}</span>{r}</span></td><td data-l="How we prevent it">{s}</td></tr>' for i,r,s in risks)}</tbody>
-</table></div>
-<div class="callout">{ic("check")} You never deal with customs authorities or prepare a customs document yourself.</div>''')
-
 # ---------------- COMPLIANCE ----------------
 comps = [
  ("cup","Food and ingredients","FSSAI","FSSAI importer licence and Food Import Clearance System"),
@@ -811,47 +760,6 @@ slide("paper", "What you pay", f'''
   </div>
 </div>''')
 
-# ---------------- 15 TIMELINES ----------------
-HX0, HX1 = 200, 520
-hx = lambda h: HX0 + (HX1-HX0)*h/48
-resp = [("Work starts after payment",4),("Logistics quote",4),("Corporate call back",6),("General enquiry reply",24),("Sourcing quote or proposal",48)]
-r_rows = ""
-for n,(l,h) in enumerate(resp):
-    y = 40 + n*46
-    r_rows += f'<text x="0" y="{y+16}" font-size="14" fill="#132A30">{l}</text><rect x="{HX0}" y="{y}" width="{hx(h)-HX0:.1f}" height="22" rx="4" fill="#E9A23B"/>'
-    lab = "4 to 6 h" if h==6 else f"{h} h"
-    tx = hx(h)+8
-    anchor = "start"
-    if h == 48:
-        tx, anchor = hx(h)-8, "end"
-    col = "#132A30"
-    r_rows += f'<text x="{tx:.1f}" y="{y+16}" font-size="13" font-weight="600" text-anchor="{anchor}" fill="{col}">within {lab}</text>'
-r_ticks = "".join(f'<line x1="{hx(t):.1f}" y1="30" x2="{hx(t):.1f}" y2="270" stroke="#C9D5D3"/><text x="{hx(t):.1f}" y="290" text-anchor="middle" font-size="12" fill="#566C70">{t}</text>' for t in (0,12,24,36,48))
-resp_chart = f'''<svg class="chart wide" viewBox="0 0 540 310" role="img" aria-label="Response times in hours">
-<text x="0" y="14" font-size="12" fill="#566C70" class="mono">HOW FAST WE RESPOND (HOURS)</text>{r_ticks}<line x1="{HX0}" y1="270" x2="{HX1}" y2="270" stroke="#132A30" stroke-width="1.5"/>{r_rows}</svg>'''
-DX0, DX1 = 200, 520
-dx = lambda d: DX0 + (DX1-DX0)*d/45
-trans = [("Customs clearance",2,3,"#9FD3C5"),("Air freight",7,12,"#E9A23B"),("Sea freight",25,45,"#17505C")]
-t_rows = ""
-for n,(l,a,b,c) in enumerate(trans):
-    y = 60 + n*70
-    w = max(dx(b)-dx(a), 7)
-    t_rows += f'<text x="0" y="{y+16}" font-size="14" fill="#132A30">{l}</text><rect x="{dx(a):.1f}" y="{y}" width="{w:.1f}" height="22" rx="4" fill="{c}"/>'
-    if b == 45:
-        t_rows += f'<text x="{dx(a)-8:.1f}" y="{y+16}" text-anchor="end" font-size="13" font-weight="600" fill="#132A30">{a} to {b} days</text>'
-    else:
-        t_rows += f'<text x="{dx(a)+w+8:.1f}" y="{y+16}" font-size="13" font-weight="600" fill="#132A30">{a} to {b} days</text>'
-t_ticks = "".join(f'<line x1="{dx(t):.1f}" y1="30" x2="{dx(t):.1f}" y2="270" stroke="#C9D5D3"/><text x="{dx(t):.1f}" y="290" text-anchor="middle" font-size="12" fill="#566C70">{t}</text>' for t in (0,10,20,30,40))
-trans_chart = f'''<svg class="chart wide" viewBox="0 0 540 310" role="img" aria-label="Transit and clearance in working days">
-<text x="0" y="14" font-size="12" fill="#566C70" class="mono">TRANSIT AND CLEARANCE (WORKING DAYS)</text>{t_ticks}<line x1="{DX0}" y1="270" x2="{DX1}" y2="270" stroke="#132A30" stroke-width="1.5"/>{t_rows}</svg>'''
-slide("", "Timelines", f'''
-<div class="hd"><span class="eyebrow">Timelines at a glance</span><h2>How fast things move</h2></div>
-<div class="grid g2 fill" style="gap:2cqw">
-  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center"><div class="m-hide">{resp_chart}</div>{mlist("How fast we respond", [(l, "within 4 to 6 h" if h==6 else f"within {h} h") for l,h in resp])}</div>
-  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center"><div class="m-hide">{trans_chart}</div>{mlist("Transit and clearance", [(l, f"{a} to {b} working days") for l,a,b,c in trans])}</div>
-</div>
-<p class="small mute">Freight times are door to door. Exact timelines depend on your product, supplier and destination, and your quote states the agreed timeline before you pay.</p>''')
-
 # ---------------- 16 INDUSTRIES ----------------
 inds = [
  ("store","Retail, boutiques and D2C","Unique products you will not find in local wholesale"),
@@ -876,12 +784,8 @@ STORY_BACK = {
  "Home decor retailer, Mumbai": ("800 units arrived with weak stitching, wrong colour and wrong sizes.","Mid-production and pre-shipment inspections against the approved sample, on every order.","A material swap caught halfway through the next order. No faulty shipment since."),
  "Manufacturing unit, Surat": ("Lost Rs. 4.2 lakh to a supplier found online who then disappeared.","Full factory checks, verified bank details and a written contract before any order.","Four orders on time and to specification. Nothing lost."),
  "Lifestyle brand, Chennai": ("Paying about 1.8 times factory price through a trading company.","Sourced direct from the same kind of factory, with a clear, fixed fee.","Landed cost 38% lower, margin up 14 points, two new categories funded."),
- "Gift store, Bangalore": ("Selling the same products as every shop on the street.","Found Nordic ceramics 18 months before Indian wholesale and imported them end to end.","The only stockist in the city, with prices nobody could compare."),
  "D2C brand, Delhi": ("A shipment held three weeks at Nhava Sheva over a packing list mismatch. Peak season missed.","Every document cross-checked against the others before filing on ICEGATE.","The last four shipments cleared within two working days."),
- "Boutique, Mumbai": ("A launch event collapsed when promised goods never arrived.","One accountable contact owning the delivery date, with updates before being asked.","Two launches since, both delivered ahead of the date."),
  "Ceramics artist, Pune": ("Could not meet Italian factory minimums alone, and one shipment was lost.","Found two verified makers, tested samples and pooled orders with other buyers.","Four on-time quarterly deliveries and two referrals."),
- "First-time importer, Hyderabad": ("Six months unsure what to sell, with capital ready.","Niche research matched to their budget, city and customers.","Opened with a range nobody else had. Reordered within three months."),
- "Kitchenware retailer, Kochi": ("Losing ground to a newer rival for three years.","Mapped what drove the rival, then sourced two categories nobody owned yet.","Growing again within eight months."),
 }
 def story_flip(m,w,d,sp):
     pr,did,res=STORY_BACK[w]
@@ -894,29 +798,16 @@ stories = [
  ("6 weeks","Specialty cafe, Jaipur","From first call to delivered Japanese pour-over equipment, after four months stuck trying alone. Three repeat orders since.","s-span2"),
  ("Caught early","Home decor retailer, Mumbai","An 800-unit order once arrived unlike the sample. Our mid-production check caught the next order's material swap at the factory.","s-span2"),
  ("Rs. 0 lost","Manufacturing unit, Surat","After losing Rs. 4.2 lakh to an online supplier, four orders through us arrived on time and to specification.","s-span2"),
- ("38% lower","Lifestyle brand, Chennai","Total landed cost after replacing a trading company that charged about 1.8 times factory price. Gross margin up 14 points.","s-span3"),
- ("Only stockist","Gift store, Bangalore","Nordic ceramic homeware sourced about 18 months before it reached Indian wholesale. The store became the city's only stockist.","s-span3"),
+ ("38% lower","Lifestyle brand, Chennai","Total landed cost after replacing a trading company that charged about 1.8 times factory price. Gross margin up 14 points.","s-span2"),
+ ("2 days","D2C brand, Delhi","A shipment once sat at Nhava Sheva for three weeks over a paperwork mismatch. Their last four Ameck shipments cleared within two working days.","s-span2"),
+ ("4 quarters","Ceramics artist, Pune","Italian pigments she could not buy alone. We pooled orders to meet factory minimums: four on-time quarterly deliveries and two referrals.","s-span2"),
 ]
 slide("dark", "Customer stories", f'''
-<div class="hd"><span class="eyebrow">Customer stories</span><h2>Real problems we have solved</h2></div>
+<div class="hd"><span class="eyebrow">Customer stories</span><h2>Six real problems we have solved</h2></div>
 <div class="grid g6 fill m-swipe" style="grid-auto-rows:1fr">
  {"".join(story_flip(m,w,d,sp) for m,w,d,sp in stories)}
 </div>''')
 
-
-# ---------------- STORIES 2 ----------------
-stories2 = [
- ("2 days","D2C brand, Delhi","A shipment once sat at Nhava Sheva for three weeks over a paperwork mismatch. Their last four Ameck shipments cleared within two working days.","s-span2"),
- ("Ahead of date","Boutique, Mumbai","A launch event once collapsed when goods never came. Two launches since were timed to our delivery dates, and both arrived early.","s-span2"),
- ("4 quarters","Ceramics artist, Pune","Italian pigments she could not buy alone. We pooled orders to meet factory minimums: four on-time quarterly deliveries and two referrals.","s-span2"),
- ("3 months","First-time importer, Hyderabad","Six months stuck on what to sell. Our niche research found an underserved category, and the second order came within three months of opening.","s-span3"),
- ("8 months","Kitchenware retailer, Kochi","A decade-old store losing to a newer rival. We mapped what drove the rival and sourced two new categories. Growth returned within eight months.","s-span3"),
-]
-slide("dark", "Customer stories", f"""
-<div class="hd"><span class="eyebrow">Customer stories, continued</span><h2>Five more problems we have solved</h2></div>
-<div class="grid g6 fill m-swipe" style="grid-auto-rows:1fr">
- {"".join(story_flip(m,w,d,sp) for m,w,d,sp in stories2)}
-</div>""")
 
 # ---------------- TWO JOURNEYS ----------------
 ALONE = ['Search online directories and hope the supplier is real', 'Pay a supplier you have never met', 'Approve a sample and hope the bulk matches', 'Work out HSN codes, customs duty and IGST', 'Prepare the Bill of Entry, licences and every document', 'Chase freight forwarders, the port and customs', 'Handle customs queries, holds and demurrage', 'Absorb any fraud, defect, delay or penalty yourself']
@@ -941,69 +832,6 @@ slide("paper", "Ameck vs doing it yourself", f'''
     <p class="small">Suppliers, inspections, IEC, customs, freight and the risk all sit with us. You stay focused on selling.</p>
   </div>
 </div>''')
-# ---------------- 18 DIY ----------------
-diy = [
- ("Finding a supplier","Online directories with no way to check them","A verified network, with due diligence on every supplier"),
- ("What to import","What is already sold locally, and already crowded","Trends spotted 12 to 24 months before the Indian mainstream"),
- ("Price","Whatever the supplier quotes","Factory-direct, typically 30 to 45% below wholesale"),
- ("Quality","Approve a sample and hope the bulk matches","Mid-production and pre-shipment inspection on every order"),
- ("Customs and paperwork","IEC, HSN, Bill of Entry, IGST, BIS, FSSAI. One error can cost weeks.","100% handled by us, under our own IEC"),
- ("Your time","60 to 120 hours per shipment, over 3 to 5 months","A few hours in total"),
- ("Risk","Fraud, quality failure and penalties fall on you","Managed through supplier checks, inspections and insurance"),
-]
-slide("", "Ameck vs doing it yourself", f'''
-<div class="hd"><span class="eyebrow">Ameck vs doing it yourself</span><h2>The same import, two very different experiences</h2></div>
-<div class="tablewrap fill"><table class="t vs mcards">
-<thead><tr><th style="width:18%"></th><th class="diy" style="width:41%">On your own</th><th class="ame">With Ameck</th></tr></thead>
-<tbody>{"".join(f'<tr><td>{a}</td><td class="diy" data-l="On your own"><span class="cell"><span class="x">{ic("x")}</span><span>{d}</span></span></td><td class="ame" data-l="With Ameck"><span class="cell"><span class="ok">{ic("check")}</span>{w}</span></td></tr>' for a,d,w in diy)}</tbody>
-</table></div>
-<div class="callout">{ic("chat")} Not sure which route suits you? Tell us what you want to import. We will give you an honest landed cost estimate.</div>''')
-
-
-# ---------------- COST EXAMPLE ----------------
-CX0, CK = 250, 1.12   # x origin, px per Rs. thousand (500k -> 560px)
-cx = lambda k: CX0 + CK*k
-crow = [
- ("Product cost", (500,500,"Rs. 5,00,000"), (325,350,"Rs. 3,25,000 to 3,50,000")),
- ("Freight", (40,60,"Rs. 40,000 to 60,000"), (35,50,"Rs. 35,000 to 50,000")),
- ("Customs agent and handling", (8,15,"Rs. 8,000 to 15,000"), None),
-]
-cbars = ""
-for n,(lab,d,a) in enumerate(crow):
-    y = 58 + n*92
-    cbars += f'<text x="0" y="{y+26}" font-size="15" font-weight="600" fill="#132A30">{lab}</text>'
-    lo,hi,t = d
-    cbars += f'<rect x="{CX0}" y="{y}" width="{CK*lo:.1f}" height="22" rx="3" fill="#C4542A"/>'
-    if hi>lo: cbars += f'<rect x="{cx(lo):.1f}" y="{y}" width="{CK*(hi-lo):.1f}" height="22" rx="3" fill="#C4542A" opacity=".4"/>'
-    tx = cx(hi)+10
-    if hi == 500: cbars += f'<text x="{cx(hi)-10:.1f}" y="{y+16}" text-anchor="end" font-size="13" font-weight="600" fill="#FBFCFB">{t}</text>'
-    else: cbars += f'<text x="{tx:.1f}" y="{y+16}" font-size="13" fill="#132A30">{t}</text>'
-    y2 = y+30
-    if a:
-        lo,hi,t = a
-        cbars += f'<rect x="{CX0}" y="{y2}" width="{CK*lo:.1f}" height="22" rx="3" fill="#17505C"/>'
-        cbars += f'<rect x="{cx(lo):.1f}" y="{y2}" width="{CK*(hi-lo):.1f}" height="22" rx="3" fill="#17505C" opacity=".4"/>'
-        cbars += f'<text x="{cx(hi)+10:.1f}" y="{y2+16}" font-size="13" font-weight="600" fill="#132A30">{t}</text>'
-    else:
-        cbars += f'<text x="{CX0+6}" y="{y2+16}" font-size="13" font-weight="600" fill="#17505C">Included in our service</text>'
-cticks = "".join(f'<line x1="{cx(k):.1f}" y1="44" x2="{cx(k):.1f}" y2="318" stroke="#C9D5D3"/><text x="{cx(k):.1f}" y="338" text-anchor="middle" font-size="12" fill="#566C70">{lab}</text>' for k,lab in [(0,"0"),(100,"1 L"),(200,"2 L"),(300,"3 L"),(400,"4 L"),(500,"5 L")])
-cost_chart = f'''<svg class="chart wide" viewBox="0 0 840 350" role="img" aria-label="Rs. 5 lakh order: product cost Rs. 5,00,000 on your own vs Rs. 3,25,000 to 3,50,000 with Ameck">
-<text x="0" y="16" font-size="12" fill="#566C70" class="mono">COST OF A RS. 5 LAKH FACTORY-PRICE ORDER (RS., L = LAKH)</text>
-<g class="mono" font-size="12" fill="#566C70"><rect x="560" y="5" width="14" height="14" rx="2" fill="#C4542A"/><text x="580" y="16">ON YOUR OWN</text><rect x="690" y="5" width="14" height="14" rx="2" fill="#17505C"/><text x="710" y="16">WITH AMECK</text></g>
-{cticks}<line x1="{CX0}" y1="318" x2="{cx(500)}" y2="318" stroke="#132A30" stroke-width="1.5"/>
-<line x1="{CX0}" y1="44" x2="{CX0}" y2="318" stroke="#132A30" stroke-width="1.5"/>
-{cbars}</svg>'''
-slide("", "Ameck vs doing it yourself", f'''
-<div class="hd"><span class="eyebrow">Ameck vs doing it yourself</span><h2>What a Rs. 5 lakh order really costs</h2></div>
-<div class="grid fill split" style="grid-template-columns:1.5fr .7fr;gap:2cqw">
-  <div class="card" style="padding:1.6cqw 1.8cqw;justify-content:center"><div class="m-hide">{cost_chart}</div>{mlist("A Rs. 5 lakh order", [(lab, d[2], ("With Ameck: " + a[2]) if a else "With Ameck: included in our service") for lab,d,a in crow])}</div>
-  <div class="hd m-swipe" style="gap:1.2cqw">
-    <div class="card" style="background:var(--sea);color:var(--on-sea);border-color:var(--sea);gap:.5cqw"><b class="bigt" style="color:var(--marigold)">Rs. 1.5 to 1.75 lakh</b><p class="small">saved on product cost alone, about 30 to 35% lower, because we buy factory-direct and combine orders</p></div>
-    <div class="card" style="gap:.4cqw"><h3 style="font-size:var(--b)">Lower duty too</h3><p class="small mute">Customs duty and IGST are charged on the product cost, so a lower price means lower duty.</p></div>
-    <div class="card" style="gap:.4cqw"><h3 style="font-size:var(--b)">And your time back</h3><p class="small mute">60 to 120 hours on your own, against a few hours with us.</p></div>
-  </div>
-</div>
-<p class="small mute">Illustrative example from the Ameck guide to importing on your own. Your quote gives the exact figures for your order. Lighter bar ends show the range.</p>''')
 # ---------------- SAVINGS ESTIMATOR ----------------
 slide("paper", "Estimate your saving", f'''
 <div class="hd"><span class="eyebrow">Estimate your saving</span><h2 style="max-width:none">See what factory-direct pricing could save you</h2></div>
